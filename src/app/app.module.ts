@@ -3,16 +3,52 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { ServiceListComponent } from './service-list/service-list.component';
+import { LoginComponent } from './login/login.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { ServiceListItemComponent } from './service-list-item/service-list-item.component';
+import { HomeComponent } from './home/home.component';
+import {AppRoutingModule} from "./app-routing.module";
+import { ServiceListBookedComponent } from './service-list-booked/service-list-booked.component';
+import { ServiceListOwnedComponent } from './service-list-owned/service-list-owned.component';
+import { ServiceListSavedComponent } from './service-list-saved/service-list-saved.component';
+import {AuthenticationService} from "./shared/authentication.service";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {TokenInterceptorService} from "./shared/token-interceptor.service";
+import {ToastrModule} from "ngx-toastr";
+import {JwtInterceptorService} from "./shared/jwt-interceptor.service";
+import { ServiceDetailsComponent } from './service-details/service-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ServiceListComponent
+    ServiceListComponent,
+    LoginComponent,
+    ServiceListItemComponent,
+    HomeComponent,
+    ServiceListBookedComponent,
+    ServiceListOwnedComponent,
+    ServiceListSavedComponent,
+    ServiceDetailsComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [AuthenticationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

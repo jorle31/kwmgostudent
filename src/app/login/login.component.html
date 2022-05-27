@@ -1,0 +1,46 @@
+<div *ngIf="!isLoggedIn()" class="ui container loginSection">
+  <div class="ui container center aligned loginFormHeader">
+    <h2 class="ui teal header">
+      <img src="assets/logo.png" class="image">
+      <div class="content">
+       Anmelden
+      </div>
+    </h2>
+  </div>
+  <form class="ui large form" [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="field">
+      <div class="ui left icon input">
+        <i class="user icon"></i>
+        <input type="email" id="username" formControlName="username" placeholder="E-Mail">
+      </div>
+      <div *ngIf="loginForm.get('username')?.invalid &&
+        (loginForm.get('username')?.dirty ||
+        loginForm.get('username')?.touched) &&
+        loginForm.get('username')?.hasError('required')" class="ui negative message">
+        Eine E-Mail ist verpflichtend!
+      </div>
+
+      <div *ngIf="loginForm.get('username')?.invalid &&
+        (loginForm.get('username')?.dirty ||
+        loginForm.get('username')?.touched) &&
+        loginForm.get('username')?.hasError('email')" class="ui negative message">
+        Das E-mail Format ist ungültig!
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui left icon input">
+        <i class="lock icon"></i>
+        <input type="password" formControlName="password" placeholder="Passwort">
+      </div>
+      <div *ngIf="loginForm.get('password')?.invalid &&
+        (loginForm.get('password')?.dirty ||
+        loginForm.get('password')?.touched) &&
+        loginForm.get('password')?.hasError('required')" class="ui negative message">
+       Das Passwort ist ungültig!
+      </div>
+    </div>
+    <div class="ui container center aligned">
+      <button type="submit" class="ui button" [disabled]="loginForm.invalid">Anmelden</button>
+    </div>
+  </form>
+</div>

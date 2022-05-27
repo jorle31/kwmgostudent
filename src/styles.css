@@ -1,1 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
+body>.grid {
+  height: 100%;
+  background-color: #DADADA;
+}
+.column.login {
+  max-width: 450px;
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+/*Header-Navigation*/
+.landing-image {
+  background-image: url('assets/Banner.jpeg') !important;
+  background-size: cover !important;
+  height: 30em;
+}
+@media (max-width: 767px) {
+  .item.hidden-mobile {
+    display: none !important;
+  }
+}
+@media (min-width: 767px) {
+  .toc.item {
+    display: none !important;
+  }
+}
+.textContainer{
+  background: rgba(0, 0, 0, .4) ;   /*  40% opaque green */
+  border-radius: 1em;
+  padding: 3em 3em 3em 3em;
+  margin-top:3em;
+}
+/*Header-Navigation*/
+
+/*Login-Page*/
+.loginSection{
+  margin: 3em 0 3em 0;
+  width: 35em !important;
+  padding: 1.5em 3em 3em 3em;
+  box-shadow: 3px 5px 10px silver;
+  border-radius: 1em;
+}
+.loginFormHeader{
+  margin-bottom: 1.5em;
+}
+.image{
+  width: 100px !important;
+}
+/*Login-Page*/
+
+/*Home-Page*/
+.sectionHeader{
+  margin-top: 3em !important;
+  margin-bottom: 3em !important;
+}
+.servicesList{
+  margin-bottom: 3em !important;
+}
+/*Home-Page*/
