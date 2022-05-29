@@ -31,6 +31,9 @@ body>.grid {
   padding: 3em 3em 3em 3em;
   margin-top:3em;
 }
+.profileText{
+  margin-right: 1.5em;
+}
 /*Header-Navigation*/
 
 /*Login-Page*/
@@ -55,6 +58,9 @@ body>.grid {
   margin-bottom: 3em !important;
 }
 .servicesList{
-  margin-bottom: 3em !important;
+  margin-bottom: 3em;
+}
+.showMore{
+  margin-top: 3em;
 }
 /*Home-Page*/

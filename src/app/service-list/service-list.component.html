@@ -1,25 +1,17 @@
-
-<!--div class="ui middle aligned selection divided list">
-  <a *ngFor="let service of services" class="item kgs-service-list-item"
-  [service]="service">
-  </a>
-</div-->
-
-
-<div class="ui pagination menu">
-  <a class="active item">
-    1
-  </a>
-  <div class="disabled item">
-    ...
+<h2 class="ui center aligned header sectionHeader">Alle Angebote</h2>
+<div class="ui container servicesList">
+  <div class="ui relaxed divided items">
+    <div class="ui middle aligned selection divided list">
+      <a *ngFor="let service of services | paginate: { itemsPerPage: 10, currentPage: p }" class="item kgs-service-list-item" [service]="service" [routerLink]="$any(service.id)">
+      </a>
+      <div *ngIf="services && !services.length" class="ui active dimmer">
+        <div class="ui large text loader">
+          Daten werden geladen!
+        </div>
+      </div>
+      <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
+    </div>
   </div>
-  <a class="item">
-    10
-  </a>
-  <a class="item">
-    11
-  </a>
-  <a class="item">
-    12
-  </a>
 </div>
+
+<pagination-controls (pageChange)="p = $event" previousLabel="Zurück" nextLabel="Weiter"></pagination-controls>

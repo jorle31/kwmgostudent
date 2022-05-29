@@ -1,66 +1,18 @@
-<h3 class="ui center aligned header sectionHeader">Responsive Item</h3>
+<h2 class="ui center aligned header sectionHeader">Neue Angebote</h2>
 <div class="ui container servicesList">
   <div class="ui relaxed divided items">
-    <div class="item">
-      <div class="ui small image">
-        <img src="assets/images/wireframe/image.png">
-      </div>
-      <div class="content">
-        <a class="header">Content Header</a>
-        <div class="meta">
-          <a>Date</a>
-          <a>Category</a>
-        </div>
-        <div class="description">
-          A description which may flow for several lines and give context to the content.
-        </div>
-        <div class="extra">
-          <img src="assets/images/wireframe/square-image.png" class="ui circular avatar image"> Username
+    <div class="ui middle aligned selection divided list">
+      <a *ngFor="let service of services" class="item kgs-service-list-item" [service]="service" [routerLink]="'../services/'+$any(service.id)">
+      </a>
+      <div *ngIf="services && !services.length" class="ui active dimmer">
+        <div class="ui large text loader">
+          Daten werden geladen!
         </div>
       </div>
+      <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
     </div>
-    <div class="item">
-      <div class="ui small image">
-        <img src="assets/images/wireframe/image.png">
-      </div>
-      <div class="content">
-        <a class="header">Content Header</a>
-        <div class="meta">
-          <a>Date</a>
-          <a>Category</a>
-        </div>
-        <div class="description">
-          A description which may flow for several lines and give context to the content.
-        </div>
-        <div class="extra">
-          <div class="ui right floated primary button">
-            Primary
-            <i class="right chevron icon"></i>
-          </div>
-          <div class="ui label">Limited</div>
-        </div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="ui small image">
-        <img src="assets/images/wireframe/image.png">
-      </div>
-      <div class="content">
-        <a class="header">Content Header</a>
-        <div class="meta">
-          <a>Date</a>
-          <a>Category</a>
-        </div>
-        <div class="description">
-          A description which may flow for several lines and give context to the content.
-        </div>
-        <div class="extra">
-          <div class="ui right floated primary button">
-            Primary
-            <i class="right chevron icon"></i>
-          </div>
-        </div>
-      </div>
+    <div class="ui container center aligned showMore">
+      <button routerLink="../services" class="ui button">Mehr Anzeigen</button>
     </div>
   </div>
 </div>

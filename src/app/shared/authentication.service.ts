@@ -2,12 +2,18 @@ import { Injectable } from '@angular/core';
 import jwt_decode from "jwt-decode";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {User} from "./user";
 
 interface Token {
   exp: number;
   user: {
     id: string;
-    is_coach: string
+    is_coach: string;
+    name: string,
+    degree: string,
+    degree_description: string,
+    telephone: string,
+    email: string
   }
 }
 
@@ -17,7 +23,22 @@ export class AuthenticationService {
   private api = 'http://coachingService.s1910456022.student.kwmhgb.at/api/auth';
 
   constructor(private http:HttpClient) {
+  }
 
+  /*public getCurrentUserId(){
+    return Number.parseInt(<string>sessionStorage.getItem("userRole"));
+  }
+
+  public getCurrentUserRole(){
+    return Number.parseInt(<string>sessionStorage.getItem("userRole"));
+  }
+
+  getCurrentUserName(){
+    return sessionStorage.getItem("userName");
+  }*/
+
+  public setSessionStorage (token:string) {
+    sessionStorage.setItem("token", token);
   }
 
   login(email:string, password:string) : Observable<any>{
@@ -27,26 +48,12 @@ export class AuthenticationService {
     });
   }
 
-  public getCurrentUserId(){
-    return Number.parseInt(<string>sessionStorage.getItem("userId"));
-  }
-
-  public getCurrentUserRole(){
-    return Number.parseInt(<string>sessionStorage.getItem("userRole"));
-  }
-
-  public setSessionStorage (token:string) {
-    const decodedToken = jwt_decode(token) as Token;
-    sessionStorage.setItem("token", token);
-    sessionStorage.setItem("userId", decodedToken.user.id);
-    sessionStorage.setItem("userRole", decodedToken.user.is_coach);
-  }
-
   public logout(){
     this.http.post(`${this.api}/logout`, {});
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('userId');
     sessionStorage.removeItem('userRole');
+    sessionStorage.removeItem('userName');
   }
 
   public isLoggedIn(){
@@ -68,5 +75,18 @@ export class AuthenticationService {
 
   public isLoggedOut(){
     return !this.isLoggedIn();
+  }
+
+  getCurrentUser() : User {
+    return this.decodeToken();
+  }
+
+  decodeToken(): User {
+    if (sessionStorage.getItem("token")) {
+      const decodedToken = jwt_decode(<string>sessionStorage.getItem("token")) as Token;
+      return new User(+decodedToken.user.id, decodedToken.user.name, decodedToken.user.degree, decodedToken.user.degree_description, decodedToken.user.email, decodedToken.user.telephone, +decodedToken.user.is_coach == 1);
+    } {
+      return new User(0, '', '', '', '', '', false);
+    }
   }
 }

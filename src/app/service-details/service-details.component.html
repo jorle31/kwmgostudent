@@ -1,4 +1,11 @@
-<!--p>{{service.title}}</p>
-<p>{{service.subtitle}}</p>
-<p>{{service.description}}</p>
-<p>{{service.id}}</p-->
+<div class="ui container" *ngIf="service">
+  <div>{{service.title}}</div>
+  <div>{{service.subtitle}}</div>
+  <div>{{service.description}}</div>
+
+</div>
+<button routerLink="../" class="ui red button">Zurück</button>
+<p>uId{{user.id}}ic{{user.is_coach}}suid{{service.user_id}}</p>
+<a *ngIf="user.id === service.user_id && user.is_coach" class="ui tiny yellow labeled icon button" [routerLink]="['../../user/services', service?.id]">
+  <i class="write icon"></i> Editieren</a>
+<button *ngIf="user.id === service.user_id && user.is_coach" class="ui red button" (click)="removeService()">Service löschen</button>

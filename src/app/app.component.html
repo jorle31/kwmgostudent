@@ -1,12 +1,10 @@
-
 <div id="sidebarMenu" class="ui sidebar inverted vertical menu">
-  <a routerLink="home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="item">Home</a>
+  <a routerLink="home" routerLinkActive="active" class="item">Home</a>
   <a routerLink="services" routerLinkActive="active" class="item">Services</a>
-  <a *ngIf="isLoggedIn() && getCurrentUserRole() === 0 " routerLink="user/services" routerLinkActive="active" class="item">My Services</a>
-  <a *ngIf="isLoggedIn() && getCurrentUserRole() === 1" routerLink="user/services_saved" routerLinkActive="active" class="item">Marked Services</a>
-  <a *ngIf="isLoggedIn() && getCurrentUserRole() === 1" routerLink="user/services_booked" routerLinkActive="active" class="item">Booked Services</a>
+  <a *ngIf="isLoggedIn() && getCurrentUser().is_coach" routerLink="user/services" routerLinkActive="active" class="item">My Services</a>
+  <a *ngIf="isLoggedIn() && !getCurrentUser().is_coach" routerLink="user/services_saved" routerLinkActive="active" class="item">Marked Services</a>
+  <a *ngIf="isLoggedIn() && !getCurrentUser().is_coach" routerLink="user/services_booked" routerLinkActive="active" class="item">Booked Services</a>
 </div>
-
 
 <div class="ui inverted vertical landing-image masthead center aligned segment">
   <div class="ui container">
@@ -14,12 +12,13 @@
       <a class="toc item">
         <i class="sidebar icon"></i>
       </a>
-      <a routerLink="home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="item hidden-mobile">Home</a>
+      <a routerLink="home" routerLinkActive="active" class="item hidden-mobile">Home</a>
       <a routerLink="services" routerLinkActive="active" class="item hidden-mobile">Services</a>
-      <a *ngIf="isLoggedIn() && getCurrentUserRole() === 0 " routerLink="user/services" routerLinkActive="active" class="item hidden-mobile">My Services</a>
-      <a *ngIf="isLoggedIn() && getCurrentUserRole() === 1" routerLink="user/services_saved" routerLinkActive="active" class="item hidden-mobile">Marked Services</a>
-      <a *ngIf="isLoggedIn() && getCurrentUserRole() === 1" routerLink="user/services_booked" routerLinkActive="active" class="item hidden-mobile">Booked Services</a>
+      <a *ngIf="isLoggedIn() && getCurrentUser().is_coach" routerLink="user/services" routerLinkActive="active" class="item hidden-mobile">My Services</a>
+      <a *ngIf="isLoggedIn() && !getCurrentUser().is_coach" routerLink="user/services_saved" routerLinkActive="active" class="item hidden-mobile">Marked Services</a>
+      <a *ngIf="isLoggedIn() && !getCurrentUser().is_coach" routerLink="user/services_booked" routerLinkActive="active" class="item hidden-mobile">Booked Services</a>
       <div class="right item">
+        <span *ngIf="isLoggedIn()" class="profileText"> <i class="user icon"></i>{{getCurrentUser().name}}</span>
         <a *ngIf="isLoggedIn()" (click)="logout()" routerLink="home" routerLinkActive="active" class="ui inverted button">Logout</a>
         <a *ngIf="!isLoggedIn()" routerLink="login" routerLinkActive="active" class="ui inverted button">Login</a>
       </div>

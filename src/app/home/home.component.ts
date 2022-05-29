@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ServiceCoachingService} from "../shared/service-coaching.service";
+import {Service} from "../shared/service";
 
 @Component({
   selector: 'kgs-home',
@@ -8,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  services: Service[] = [];
+
+  constructor(private cs: ServiceCoachingService) { }
 
   ngOnInit(): void {
+    this.cs.getAll().subscribe(res => this.services = res.slice(-3).reverse());
   }
-
 }

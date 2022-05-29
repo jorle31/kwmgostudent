@@ -1,0 +1,72 @@
+<h1>Formular</h1>
+
+<form class="ui large form"  [formGroup]="serviceForm" (ngSubmit)="submitForm()">
+
+  <input type="hidden" formControlName="id">
+
+  <div class="field">
+    <label>Titel</label>
+    <div *ngIf="errors['title']" class="ui negative message">{{ errors['title'] }}</div>
+    <input formControlName="title">
+  </div>
+
+  <div class="field">
+    <label>Subtitle</label>
+    <input formControlName="subtitle">
+  </div>
+
+  <div class="field">
+    <label>Fach</label>
+    <select formControlName="subject_id" [value]="0">
+      <option value="0">Bitte wählen...</option>
+      <option *ngFor="let subject of subjects" [value]="subject.id">{{subject.title}}</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Beschreibung</label>
+    <textarea rows="3" formControlName="description"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Bilder</label>
+    <div formArrayName="images">
+      <div class="fields" *ngFor="let control of images?.controls; index as i; last as l" [formGroupName]="i">
+        <input type="hidden" formControlName="id">
+        <div class="nine wide field">
+          <input formControlName="url" placeholder="https://bild{{i+1}}_url">
+        </div>
+        <div class="six wide field">
+          <input formControlName="title" placeholder="bild{{i+1}}_title">
+        </div>
+        <div class="one wide field" *ngIf="l">
+          <button (click)="addThumbnailControl()" class="ui large button" type="button">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Zeitslots</label>
+      <div formArrayName="timeslots">
+        <div class="fields" *ngFor="let control of timeslots?.controls; index as i; last as l" [formGroupName]="i">
+          <input type="hidden" formControlName="id">
+          <div class="two wide field">
+            <input type="datetime-local" formControlName="from">
+          </div>
+          <div class="two wide field">
+            <input type="datetime-local" formControlName="until">
+          </div>
+          <div class="two wide field">
+            <input type="datetime-local"  formControlName="date">
+          </div>
+          <div class="one wide field" *ngIf="l">
+            <button (click)="addTimeslotControl()" class="ui large button" type="button">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="ui button" [disabled]="serviceForm.invalid">Speichern</button>
+
+</form>
