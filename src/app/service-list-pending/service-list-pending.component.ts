@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceCoachingService } from "../shared/service-coaching.service";
-import { Service } from "../shared/service";
+import {Service, Timeslot} from "../shared/service";
 import { User } from "../shared/user";
 import { UserFactory } from "../shared/user-factory";
 import { AuthenticationService } from "../shared/authentication.service";
@@ -19,6 +19,7 @@ export class ServiceListPendingComponent implements OnInit {
   p:any;
   user : User = UserFactory.empty();
   services: Service[] = [];
+  timeslots: Timeslot[] = [];
 
   constructor(private cs: ServiceCoachingService,
               private authService: AuthenticationService) { }
@@ -34,7 +35,7 @@ export class ServiceListPendingComponent implements OnInit {
 
   initCoachView(){
     if(this.isLoggedIn() && this.user.is_coach) {
-      this.cs.getAllServicesWithPending(this.user.id).subscribe(res => {this.services = res.reverse(); console.log(this.services);});
+      this.cs.getAllServicesWithPending(this.user.id).subscribe(res => this.timeslots = res);
     }
   }
 
@@ -44,7 +45,7 @@ export class ServiceListPendingComponent implements OnInit {
 
   initStudentView(){
     if(this.isLoggedIn() && !this.user.is_coach) {
-      this.cs.getTimeslotAgreementsByUserIdWithPending(this.user.id).subscribe(res => this.timeslotAgreements = res.reverse());
+      this.cs.getTimeslotAgreementsByUserIdWithPending(this.user.id).subscribe(res => this.timeslotAgreements = res);
     }
   }
 

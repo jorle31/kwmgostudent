@@ -17,17 +17,14 @@ export class ServiceCoachingService {
   getAll(): Observable<Array<Service>> {
     return this.http.get<Array<Service>>(`${this.api}/services`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
+  getLatestServices(): Observable<Array<Service>> {
+    return this.http.get<Array<Service>>(`${this.api}/services/latest`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
   getSingle(id: string) : Observable<Service> {
     return this.http.get<Service>(`${this.api}/services/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
   getAllServicesOfUser(id: number) : Observable<Array<Service>> {
     return this.http.get<Array<Service>>(`${this.api}/services/user/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }
-  getAllServicesWithPending(id: number) : Observable<Array<Service>> {
-    return this.http.get<Array<Service>>(`${this.api}/services/pending/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }
-  getAllServicesWithAccepted(id: number) : Observable<Array<Service>> {
-    return this.http.get<Array<Service>>(`${this.api}/services/accepted/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   remove(id: number) : Observable<any> {
@@ -52,6 +49,12 @@ export class ServiceCoachingService {
   }
   removeTimeslot(id: number) : Observable<any> {
     return this.http.delete(`${this.api}/timeslots/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getAllServicesWithPending(id: number) : Observable<Array<Timeslot>> {
+    return this.http.get<Array<Timeslot>>(`${this.api}/timeslots/pending/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getAllServicesWithAccepted(id: number) : Observable<Array<Timeslot>> {
+    return this.http.get<Array<Timeslot>>(`${this.api}/timeslots/accepted/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   /*-----------------------------------------------------------------------------------------------------------------------------------*/
@@ -106,6 +109,9 @@ export class ServiceCoachingService {
   }
   getSingleSubject(id: string) : Observable<Subject> {
     return this.http.get<Subject>(`${this.api}/subjects/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  checkSubjectExists(subject_id: number) : Observable<Boolean>{
+    return this.http.get<Boolean>(`${this.api}/subject/exists/${subject_id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   /*-----------------------------------------------------------------------------------------------------------------------------------*/

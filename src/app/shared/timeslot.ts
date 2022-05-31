@@ -11,6 +11,7 @@ export class Timeslot {
     public date: Date,
     public status: number,
     public is_booked: boolean,
+    public service_id: number,
     public timeslot_agreement: TimeslotAgreement,
     public service?: Service
   ) {}

@@ -1,72 +1,80 @@
-<h1>Formular</h1>
+<div class="ui container formSection">
+  <h1>Formular</h1>
 
-<form class="ui large form"  [formGroup]="serviceForm" (ngSubmit)="submitForm()">
+  <form class="ui large form"  [formGroup]="serviceForm" (ngSubmit)="submitForm()">
 
-  <input type="hidden" formControlName="id">
+    <input type="hidden" formControlName="id">
 
-  <div class="field">
-    <label>Titel</label>
-    <div *ngIf="errors['title']" class="ui negative message">{{ errors['title'] }}</div>
-    <input formControlName="title">
-  </div>
-
-  <div class="field">
-    <label>Subtitle</label>
-    <input formControlName="subtitle">
-  </div>
-
-  <div class="field">
-    <label>Fach</label>
-    <select formControlName="subject_id" [value]="0">
-      <option value="0">Bitte wählen...</option>
-      <option *ngFor="let subject of subjects" [value]="subject.id">{{subject.title}}</option>
-    </select>
-  </div>
-
-  <div class="field">
-    <label>Beschreibung</label>
-    <textarea rows="3" formControlName="description"></textarea>
-  </div>
-
-  <div class="field">
-    <label>Bilder</label>
-    <div formArrayName="images">
-      <div class="fields" *ngFor="let control of images?.controls; index as i; last as l" [formGroupName]="i">
-        <input type="hidden" formControlName="id">
-        <div class="nine wide field">
-          <input formControlName="url" placeholder="https://bild{{i+1}}_url">
-        </div>
-        <div class="six wide field">
-          <input formControlName="title" placeholder="bild{{i+1}}_title">
-        </div>
-        <div class="one wide field" *ngIf="l">
-          <button (click)="addThumbnailControl()" class="ui large button" type="button">+</button>
-        </div>
-      </div>
+    <div class="field">
+      <label>Titel</label>
+      <div *ngIf="errors['title']" class="ui negative message">{{ errors['title'] }}</div>
+      <input formControlName="title">
     </div>
 
     <div class="field">
-      <label>Zeitslots</label>
-      <div formArrayName="timeslots">
-        <div class="fields" *ngFor="let control of timeslots?.controls; index as i; last as l" [formGroupName]="i">
+      <label>Subtitle</label>
+      <input formControlName="subtitle">
+    </div>
+
+    <div class="field">
+      <label>Fach</label>
+      <select formControlName="subject_id" [value]="0">
+        <option *ngIf="!isUpdatingService" value="0">Bitte wählen...</option>
+        <option *ngFor="let subject of subjects" [value]="subject.id">{{subject.title}}</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Beschreibung</label>
+      <textarea rows="3" formControlName="description"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Bilder</label>
+      <div formArrayName="images">
+        <div class="fields" *ngFor="let control of images?.controls; index as i; last as l" [formGroupName]="i">
           <input type="hidden" formControlName="id">
-          <div class="four wide field">
-            <input type="date" formControlName="date" placeholder="1.1.2022">
+          <div class="nine wide field">
+            <input formControlName="url" placeholder="https://bild{{i+1}}_url">
           </div>
-          <div class="four wide field">
-            <input type="time" formControlName="from" placeholder="11:00">
-          </div>
-          <div class="four wide field">
-            <input type="time" formControlName="until" placeholder="13:00">
+          <div class="five wide field">
+            <input formControlName="title" placeholder="bild{{i+1}}_title">
           </div>
           <div class="one wide field" *ngIf="l">
-            <button (click)="addTimeslotControl()" class="ui large button" type="button">+</button>
+            <button (click)="addThumbnailControl()" class="ui large button" type="button">+</button>
+          </div>
+          <div class="one wide field" *ngIf="images.length > 1 && i !== 0">
+            <button (click)="addThumbnailControlDelete(i)" class="ui large button" type="button">-</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Zeitslots</label>
+        <div formArrayName="timeslots">
+          <div class="fields" *ngFor="let control of timeslots?.controls; index as i; last as l" [formGroupName]="i">
+            <input type="hidden" formControlName="id">
+            <div class="four wide field">
+              <input type="date" formControlName="date" placeholder="31.05.2022">
+            </div>
+            <div class="five wide field">
+              <input type="time" formControlName="from" placeholder="12:45">
+            </div>
+            <div class="five wide field">
+              <input type="time" formControlName="until" placeholder="13:30">
+            </div>
+            <div class="one wide field" *ngIf="l">
+              <button (click)="addTimeslotControl()" class="ui large button" type="button">+</button>
+            </div>
+            <div class="one wide field" *ngIf="timeslots.length > 1 && i !== 0">
+              <button (click)="addTimeslotControlDelete(i)" class="ui large button" type="button">-</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <button type="submit" class="ui button" [disabled]="serviceForm.invalid">Speichern</button>
+    <button type="submit" class="ui button" [disabled]="serviceForm.invalid">Speichern</button>
 
-</form>
+  </form>
+</div>

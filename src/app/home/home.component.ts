@@ -15,6 +15,6 @@ export class HomeComponent implements OnInit {
   constructor(private cs: ServiceCoachingService) { }
 
   ngOnInit(): void {
-    this.cs.getAll().subscribe(res => this.services = res.slice(-3).reverse());
+    this.cs.getLatestServices().subscribe(res => this.services = res);
   }
 }

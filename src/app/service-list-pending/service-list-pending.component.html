@@ -2,21 +2,20 @@
 <div class="ui container servicesList">
   <div class="ui relaxed divided items">
     <div *ngIf="user.is_coach" class="ui middle aligned selection divided list">
-      <ng-container *ngFor="let service of services">
-        <a *ngFor="let timeslot of service.timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(service.id)">
+        <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
           <div class="ui container timeslot">
-            {{service.description}}
+            {{timeslot.service?.description}}
             {{timeslot.from}}
             {{timeslot.until}}
+            {{timeslot.date}}
             <hr>
             {{timeslot.timeslot_agreement.user.name}}
           </div>
-          <button *ngIf="user.is_coach && isLoggedIn() && user.id === service.user_id" (click)="finalizeBooking(timeslot.id, service.user_id)" class="ui red button">Annehmen</button>
+          <button *ngIf="user.is_coach && isLoggedIn() && user.id === timeslot.service?.user_id" (click)="finalizeBooking(timeslot.id, timeslot.service?.user_id!)" class="ui red button">Annehmen</button>
         </a>
-      </ng-container>
     </div>
     <div *ngIf="!user.is_coach" class="ui middle aligned selection divided list">
-      <a *ngFor="let timeslot_agreement of timeslotAgreements | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot_agreement.timeslot?.service?.id)">
+      <a *ngFor="let timeslot_agreement of timeslotAgreements | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot_agreement.timeslot?.service?.id!)">
         <div class="ui container timeslot">
           {{timeslot_agreement.timeslot?.service?.title}}
           <hr>

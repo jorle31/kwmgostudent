@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Service } from "../shared/service";
+import {Service, Timeslot} from "../shared/service";
 import { ServiceCoachingService } from "../shared/service-coaching.service";
 import { AuthenticationService } from "../shared/authentication.service";
 import { User } from "../shared/user";
@@ -20,6 +20,7 @@ export class ServiceListOwnedComponent implements OnInit {
   p:any;
   page:any;
   user : User = UserFactory.empty();
+  timeslots: Timeslot[] = [];
 
   constructor(private cs: ServiceCoachingService,
               private authService: AuthenticationService) { }
@@ -41,19 +42,19 @@ export class ServiceListOwnedComponent implements OnInit {
 
   initList(){
     if(this.isLoggedIn() && this.user.is_coach) {
-      this.cs.getAllServicesOfUser(this.user.id).subscribe(res => this.services = res.reverse());
+      this.cs.getAllServicesOfUser(this.user.id).subscribe(res => this.services = res);
     }
   }
 
   initCoachView(){
     if(this.isLoggedIn() && this.user.is_coach) {
-      this.cs.getAllServicesWithAccepted(this.user.id).subscribe(res => this.servicesHistory = res.reverse());
+      this.cs.getAllServicesWithAccepted(this.user.id).subscribe(res => this.timeslots = res);
     }
   }
 
   initStudentView(){
     if(this.isLoggedIn() && !this.user.is_coach) {
-      this.cs.getTimeslotAgreementsByUserId(this.user.id).subscribe(res => this.timeslotHistory = res.reverse());
+      this.cs.getTimeslotAgreementsByUserId(this.user.id).subscribe(res => this.timeslotHistory = res);
     }
   }
 }

@@ -6,5 +6,6 @@ export class ErrorMessage {
   ) { }
 }
 export const ServiceFormErrorMessages = [
-  new ErrorMessage('title', 'required', 'Ein Titel muss angegeben werden'),
+  new ErrorMessage('title', 'required', 'Ein Titel muss angegeben werden!'),
+  new ErrorMessage('subject_id', 'required', 'Bitte wähle ein Unterrichtsfach aus!'),
 ];

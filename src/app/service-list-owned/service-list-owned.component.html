@@ -2,17 +2,16 @@
 <div class="ui container servicesList">
   <div class="ui relaxed divided items">
     <div *ngIf="user.is_coach" class="ui middle aligned selection divided list">
-      <ng-container *ngFor="let service of servicesHistory">
-        <a *ngFor="let timeslot of service.timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(service.id)">
-          <div class="ui container timeslot">
-            {{service.description}}
-            {{timeslot.from}}
-            {{timeslot.until}}
-            <hr>
-            {{timeslot.timeslot_agreement.user.name}}
-          </div>
-        </a>
-      </ng-container>
+      <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
+        <div class="ui container timeslot">
+          {{timeslot.service?.description}}
+          {{timeslot.from}}
+          {{timeslot.until}}
+          {{timeslot.date}}
+          <hr>
+          {{timeslot.timeslot_agreement.user.name}}
+        </div>
+      </a>
     </div>
     <div *ngIf="!user.is_coach" class="ui middle aligned selection divided list">
       <a *ngFor="let timeslot_agreement of timeslotHistory | paginate: { itemsPerPage: 10, currentPage: page }" class="item" [routerLink]="'../../services/'+$any(timeslot_agreement.timeslot?.service?.id)">

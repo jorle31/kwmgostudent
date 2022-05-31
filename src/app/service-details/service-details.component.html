@@ -32,9 +32,9 @@
       <span *ngSwitchCase="3">Student:in nicht erschienen</span>
       <span *ngSwitchCase="4">Erfolgreich abgeschlossen</span>
     </ng-container>
-    <i *ngIf="isLoggedIn() && showStatus && user.id === service.user_id && user.is_coach" class="edit icon" (click)="toggleForm(); editStatus(user.id, timeslot.id);"></i>
+    <i *ngIf="isLoggedIn() && showStatus && user.id === service.user_id && user.is_coach" class="edit icon" (click)="toggleForm(timeslot.id); editStatus(user.id, timeslot.id);"></i>
     <i *ngIf="isLoggedIn() && user.id === service.user_id && user.is_coach" class="delete icon" (click)="removeTimeslot(timeslot.id, service.user_id)"></i>
-    <form *ngIf="isLoggedIn() && showForm && user.id === service.user_id && user.is_coach" class="ui large form" [formGroup]="updateStatusForm" (ngSubmit)="submitNewStatus()">
+    <form *ngIf="isLoggedIn() && showForm && timeslot.id === currentTimeslot && user.id === service.user_id && user.is_coach" class="ui form" [formGroup]="updateStatusForm" (ngSubmit)="submitNewStatus(timeslot.id)">
       <input type="hidden" formControlName="id">
       <div class="field">
         <label>Status</label>
@@ -59,7 +59,7 @@
   <i class="write icon"></i> Editieren</a>
 <button *ngIf="user.id === service.user_id && user.is_coach && deletable() === 0" class="ui red button" (click)="removeService(service.user_id)">Service löschen</button>
 
-<div class="ui container" style="border:black solid 1px; width:50%; margin-bottom: 3em;">
+<div class="ui container" style="margin-bottom: 3em;">
   <form *ngIf="isLoggedIn()" class="ui large form" [formGroup]="commentForm" (ngSubmit)="submitForm()">
     <input type="hidden" formControlName="id">
     <div class="field">

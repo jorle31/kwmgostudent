@@ -2,7 +2,7 @@ import {Timeslot} from "./timeslot";
 
 export class TimeslotFactory {
   static empty() : Timeslot {
-    return new Timeslot(0, '', '', new Date(), 0,false, {id: 0, accepted: false, timeslot_id: 0, user_id: 0, user: {id:0, name:'', degree: '', degree_description: '', email: '', telephone: '', is_coach: false}});
+    return new Timeslot(0, '', '', new Date(), 0,false,0, {id: 0, accepted: false, timeslot_id: 0, user_id: 0, user: {id:0, name:'', degree: '', degree_description: '', email: '', telephone: '', is_coach: false}});
   }
 
   static fromObject(rawTimeslot : any) : Timeslot {
@@ -13,6 +13,7 @@ export class TimeslotFactory {
       rawTimeslot.date,
       rawTimeslot.status,
       rawTimeslot.is_booked,
+      rawTimeslot.service_id,
       rawTimeslot.timeslot_agreement
     )
   }

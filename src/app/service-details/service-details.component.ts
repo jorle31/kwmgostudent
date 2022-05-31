@@ -30,6 +30,7 @@ export class ServiceDetailsComponent implements OnInit {
   comment : Comment = CommentFactory.empty();
   showStatus : boolean = true;
   showForm : boolean = false;
+  currentTimeslot = 0;
 
   constructor(private toastr: ToastrService,
               private fb: FormBuilder,
@@ -72,7 +73,7 @@ export class ServiceDetailsComponent implements OnInit {
     }
   }
 
-  toggleForm(){
+  toggleForm(id : number){
     if(this.showForm){
       this.showForm = false;
       this.showStatus = true;
@@ -81,6 +82,7 @@ export class ServiceDetailsComponent implements OnInit {
       this.showForm = true;
       this.showStatus = false;
     }
+    this.currentTimeslot = id;
   }
 
   initUpdateStatusForm(){
@@ -101,11 +103,11 @@ export class ServiceDetailsComponent implements OnInit {
     }
   }
 
-  submitNewStatus(){
+  submitNewStatus(id :number){
     const timeslot : Timeslot = TimeslotFactory.fromObject(this.updateStatusForm.value);
     this.cs.updateTimeslot(timeslot).subscribe(res => {
       this.updateStatusForm.reset(TimeslotFactory.empty());
-      this.toggleForm();
+      this.toggleForm(id);
       this.initService();
     });
   }

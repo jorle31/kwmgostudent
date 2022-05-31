@@ -16,6 +16,6 @@ export class ServiceListComponent implements OnInit {
   constructor(private cs: ServiceCoachingService) { }
 
   ngOnInit(): void {
-    this.cs.getAll().subscribe(res => this.services = res.reverse());
+    this.cs.getAll().subscribe(res => this.services = res);
   }
 }
