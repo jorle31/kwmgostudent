@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ServiceCoachingService} from "../shared/service-coaching.service";
-import {Service} from "../shared/service";
+import { ServiceCoachingService } from "../shared/service-coaching.service";
+import { Service } from "../shared/service";
 
 @Component({
   selector: 'kgs-home',

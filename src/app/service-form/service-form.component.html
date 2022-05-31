@@ -50,14 +50,14 @@
       <div formArrayName="timeslots">
         <div class="fields" *ngFor="let control of timeslots?.controls; index as i; last as l" [formGroupName]="i">
           <input type="hidden" formControlName="id">
-          <div class="two wide field">
-            <input type="datetime-local" formControlName="from">
+          <div class="four wide field">
+            <input type="date" formControlName="date" placeholder="1.1.2022">
           </div>
-          <div class="two wide field">
-            <input type="datetime-local" formControlName="until">
+          <div class="four wide field">
+            <input type="time" formControlName="from" placeholder="11:00">
           </div>
-          <div class="two wide field">
-            <input type="datetime-local"  formControlName="date">
+          <div class="four wide field">
+            <input type="time" formControlName="until" placeholder="13:00">
           </div>
           <div class="one wide field" *ngIf="l">
             <button (click)="addTimeslotControl()" class="ui large button" type="button">+</button>

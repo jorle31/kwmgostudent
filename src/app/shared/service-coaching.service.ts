@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Service} from "./service";
+import {Service, Timeslot, Comment} from "./service";
 import {HttpClient} from "@angular/common/http";
 import {throwError, catchError, retry, Observable} from "rxjs";
 import {Subject} from "./subject";
 import {User} from "./user";
+import {TimeslotAgreement} from "./timeslot-agreement";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,14 @@ export class ServiceCoachingService {
   getSingle(id: string) : Observable<Service> {
     return this.http.get<Service>(`${this.api}/services/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
-  getAllServicesOfUser(id: string) : Observable<Array<Service>> {
+  getAllServicesOfUser(id: number) : Observable<Array<Service>> {
     return this.http.get<Array<Service>>(`${this.api}/services/user/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getAllServicesWithPending(id: number) : Observable<Array<Service>> {
+    return this.http.get<Array<Service>>(`${this.api}/services/pending/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getAllServicesWithAccepted(id: number) : Observable<Array<Service>> {
+    return this.http.get<Array<Service>>(`${this.api}/services/accepted/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   remove(id: number) : Observable<any> {
@@ -35,6 +42,19 @@ export class ServiceCoachingService {
     return this.http.put(`${this.api}/services/${service.id}`, service).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  /*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+  updateTimeslot(timeslot: Timeslot) : Observable<any>{
+    return this.http.put(`${this.api}/timeslots/${timeslot.id}`, timeslot).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getSingleTimeslot(id: number) : Observable<Timeslot> {
+    return this.http.get<Timeslot>(`${this.api}/timeslots/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  removeTimeslot(id: number) : Observable<any> {
+    return this.http.delete(`${this.api}/timeslots/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
+  /*-----------------------------------------------------------------------------------------------------------------------------------*/
   /*check(id:String) : Observable<Boolean>{
     return this.http.get<Boolean>(`${this.api}/Services/checkid/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }*/
@@ -43,6 +63,44 @@ export class ServiceCoachingService {
     return this.http.post(`${this.api}/services`, service).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  /*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+  getCommentById(id: number) : Observable<Comment> {
+    return this.http.get<Comment>(`${this.api}/comments/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  createComment(comment: Comment) : Observable<any>{
+    return this.http.post(`${this.api}/comments`, comment).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  updateComment(comment: Comment) : Observable<any>{
+    return this.http.put(`${this.api}/comments/${comment.id}`, comment).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  removeComment(id: number) : Observable<any> {
+    return this.http.delete(`${this.api}/comments/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
+  /*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+  createTimeslotAgreement(timeslotAgreement: TimeslotAgreement) : Observable<any>{
+    return this.http.post(`${this.api}/timeslotagreements`, timeslotAgreement).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getTimeslotAgreementsByUserId(id: number) : Observable<Array<TimeslotAgreement>> {
+    return this.http.get<Array<TimeslotAgreement>>(`${this.api}/timeslotagreements/user/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  updateTimeslotAgreement(timeslotAgreement: TimeslotAgreement) : Observable<any>{
+    return this.http.put(`${this.api}/timeslotagreements/${timeslotAgreement.id}`, timeslotAgreement).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getSpecificTimeslotAgreement(id: number) : Observable<TimeslotAgreement> {
+    return this.http.get<TimeslotAgreement>(`${this.api}/timeslotagreements/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getTimeslotAgreementsByUserIdWithPending(id: number) : Observable<Array<TimeslotAgreement>> {
+    return this.http.get<Array<TimeslotAgreement>>(`${this.api}/timeslotagreements/user/pending/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  removeTimeslotAgreement(id: number) : Observable<any> {
+    return this.http.delete(`${this.api}/timeslotagreements/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
+  /*-----------------------------------------------------------------------------------------------------------------------------------*/
+
   getAllSubjects() : Observable<Array<Subject>>{
     return this.http.get<Array<Subject>>(`${this.api}/subjects`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
@@ -50,9 +108,13 @@ export class ServiceCoachingService {
     return this.http.get<Subject>(`${this.api}/subjects/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  /*-----------------------------------------------------------------------------------------------------------------------------------*/
+
   getLoggedInUser() : Observable<User> {
     return this.http.get<User>(`${this.api}/users/current`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
+
+  /*-----------------------------------------------------------------------------------------------------------------------------------*/
 
   private errorHandler(error: Error | any): Observable<any> {
     return throwError(() => new Error(error));

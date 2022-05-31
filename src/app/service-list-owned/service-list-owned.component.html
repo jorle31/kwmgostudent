@@ -1,3 +1,32 @@
+<h2 class="ui center aligned header sectionHeader">Meine gebuchten Aufträge</h2>
+<div class="ui container servicesList">
+  <div class="ui relaxed divided items">
+    <div *ngIf="user.is_coach" class="ui middle aligned selection divided list">
+      <ng-container *ngFor="let service of servicesHistory">
+        <a *ngFor="let timeslot of service.timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(service.id)">
+          <div class="ui container timeslot">
+            {{service.description}}
+            {{timeslot.from}}
+            {{timeslot.until}}
+            <hr>
+            {{timeslot.timeslot_agreement.user.name}}
+          </div>
+        </a>
+      </ng-container>
+    </div>
+    <div *ngIf="!user.is_coach" class="ui middle aligned selection divided list">
+      <a *ngFor="let timeslot_agreement of timeslotHistory | paginate: { itemsPerPage: 10, currentPage: page }" class="item" [routerLink]="'../../services/'+$any(timeslot_agreement.timeslot?.service?.id)">
+        <div class="ui container timeslot">
+          {{timeslot_agreement.timeslot?.service?.title}}
+          <hr>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<pagination-controls (pageChange)="page = $event" previousLabel="Zurück" nextLabel="Weiter"></pagination-controls>
+
+
 <h2 class="ui center aligned header sectionHeader">Neues Angebote erstellen</h2>
 <div class="ui container center aligned">
   <button routerLink="new_service" class="ui button">Neues Angebot Erstellen</button>
@@ -9,11 +38,11 @@
     <div class="ui middle aligned selection divided list">
       <a *ngFor="let service of services | paginate: { itemsPerPage: 10, currentPage: p }" class="item kgs-service-list-item" [service]="service" [routerLink]="'../../services/'+$any(service.id)">
       </a>
-      <div *ngIf="services && !services.length && services.length > 0" class="ui active dimmer">
+      <!--div *ngIf="services && !services.length && services.length > 0" class="ui active dimmer">
         <div class="ui large text loader">
           Daten werden geladen!
         </div>
-      </div>
+      </div-->
       <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
     </div>
   </div>

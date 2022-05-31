@@ -8,8 +8,7 @@ import {ServiceFormErrorMessages} from "./service-form-error-messages";
 import {Service} from "../shared/service";
 import {Subject} from "../shared/subject";
 import {AuthenticationService} from "../shared/authentication.service";
-import {User} from "../shared/user";
-import {UserFactory} from "../shared/user-factory";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'kgs-service-form',
@@ -26,7 +25,6 @@ export class ServiceFormComponent implements OnInit {
   images: FormArray;
   timeslots: FormArray;
   subjects : Subject[] = [];
-  user : User = UserFactory.empty();
 
   constructor(private fb: FormBuilder,
               private cs: ServiceCoachingService,
@@ -45,9 +43,6 @@ export class ServiceFormComponent implements OnInit {
       this.cs.getSingle(serviceId).subscribe(service => {this.service = service; this.initService();});
     }
     this.cs.getAllSubjects().subscribe(res => this.subjects = res);
-    if(this.authService.isLoggedIn()){
-      this.cs.getLoggedInUser().subscribe(user => this.user = user);
-    }
     this.initService();
   }
 
@@ -61,7 +56,7 @@ export class ServiceFormComponent implements OnInit {
       subtitle: this.service.subtitle,
       description: this.service.description,
       images: this.images,
-      timeslots: this.service.timeslots
+      timeslots: this.timeslots
     });
 
     this.serviceForm.statusChanges.subscribe(() =>
@@ -85,7 +80,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   addTimeslotControl(){
-    this.timeslots.push(this.fb.group({id: 0, from: new Date(), until: new Date(), date: new Date(), is_booked: false, service_id: 0}));
+    this.timeslots.push(this.fb.group({id: 0, from: null, until: null, date: null, is_booked: false}));
   }
 
   buildThumbnailsArray(){
@@ -106,14 +101,13 @@ export class ServiceFormComponent implements OnInit {
     if(this.service.timeslots){
       this.timeslots = this.fb.array([]);
       for(let timeslot of this.service.timeslots){
-        let fg = this.fb.group({
+        let tg = this.fb.group({
           id: new FormControl(timeslot.id),
-          from: new FormControl(timeslot.from),
-          until: new FormControl(timeslot.until),
-          date: new FormControl(timeslot.date),
-          is_booked: new FormControl(timeslot.is_booked)
+          from: new FormControl(timeslot.from, [Validators.required]),
+          until: new FormControl(timeslot.until, [Validators.required]),
+          date: new FormControl(formatDate(new Date(timeslot.date), 'yyyy-MM-dd', 'en'), [Validators.required])
         });
-        this.timeslots.push(fg);
+        this.timeslots.push(tg);
       }
     }
   }
@@ -129,7 +123,7 @@ export class ServiceFormComponent implements OnInit {
       });
     }
     else{
-      service.user_id = this.user.id;
+      service.user_id = this.authService.getCurrentUser().id;
       this.cs.create(service).subscribe(res => {
         this.service = ServiceFactory.empty();
         this.serviceForm.reset(ServiceFactory.empty());

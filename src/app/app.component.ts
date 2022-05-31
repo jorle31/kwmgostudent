@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {AuthenticationService} from "./shared/authentication.service";
-import {Service} from "./shared/service";
+import { Component } from '@angular/core';
+import { AuthenticationService } from "./shared/authentication.service";
+import { Service } from "./shared/service";
 
 @Component({
   selector: 'kgs-root',

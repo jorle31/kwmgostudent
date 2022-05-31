@@ -2,10 +2,76 @@
   <div>{{service.title}}</div>
   <div>{{service.subtitle}}</div>
   <div>{{service.description}}</div>
-
 </div>
+
+<table class="ui celled table">
+  <thead>
+  <tr>
+    <th>Tag</th>
+    <th>von</th>
+    <th>bis</th>
+    <th>Buchung</th>
+    <th>Status ändern</th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let timeslot of service.timeslots; last as l">
+  <td>{{timeslot.date}}</td>
+  <td>{{timeslot.from}}</td>
+  <td>{{timeslot.until}}</td>
+  <td>
+    <button *ngIf="!timeslot.is_booked && isLoggedIn() && user.id !== service.user_id" (click)="setBooked(timeslot.id)" class="ui red button">Buchen</button>
+    <span *ngIf="timeslot.is_booked">{{ user.id === service.user_id ? timeslot.timeslot_agreement.user.name : 'Bereits vergeben' }}</span>
+    <span *ngIf="!timeslot.is_booked && !isLoggedIn()">Bitte logge dich ein um ein Angebot buchen zu können!</span>
+    <span *ngIf="!timeslot.is_booked && isLoggedIn() && user.id === service.user_id">Noch keine Interessenten!</span>
+  </td>
+  <td>
+    <ng-container *ngIf="user.is_coach && user.id === service.user_id" [ngSwitch]="timeslot.status">
+      <span *ngSwitchCase="0">Noch zu erledigen</span>
+      <span *ngSwitchCase="1">Abgesagt</span>
+      <span *ngSwitchCase="2">Verschoben</span>
+      <span *ngSwitchCase="3">Student:in nicht erschienen</span>
+      <span *ngSwitchCase="4">Erfolgreich abgeschlossen</span>
+    </ng-container>
+    <i *ngIf="isLoggedIn() && showStatus && user.id === service.user_id && user.is_coach" class="edit icon" (click)="toggleForm(); editStatus(user.id, timeslot.id);"></i>
+    <i *ngIf="isLoggedIn() && user.id === service.user_id && user.is_coach" class="delete icon" (click)="removeTimeslot(timeslot.id, service.user_id)"></i>
+    <form *ngIf="isLoggedIn() && showForm && user.id === service.user_id && user.is_coach" class="ui large form" [formGroup]="updateStatusForm" (ngSubmit)="submitNewStatus()">
+      <input type="hidden" formControlName="id">
+      <div class="field">
+        <label>Status</label>
+        {{timeslot.status}}
+        <select [(ngModel)]="timeslot.status" formControlName="status">
+          <option value="0">Noch zu erledigen</option>
+          <option value="1">Abgesagt</option>
+          <option value="2">Verschoben</option>
+          <option value="3">Student:in nicht erschienen</option>
+          <option value="4">Erfolgreich abgeschlossen</option>
+        </select>
+      </div>
+      <button type="submit" class="ui button" [disabled]="commentForm.invalid">Speichern</button>
+    </form>
+  </td>
+  </tbody>
+</table>
+
 <button routerLink="../" class="ui red button">Zurück</button>
 <p>uId{{user.id}}ic{{user.is_coach}}suid{{service.user_id}}</p>
 <a *ngIf="user.id === service.user_id && user.is_coach" class="ui tiny yellow labeled icon button" [routerLink]="['../../user/services', service?.id]">
   <i class="write icon"></i> Editieren</a>
-<button *ngIf="user.id === service.user_id && user.is_coach" class="ui red button" (click)="removeService()">Service löschen</button>
+<button *ngIf="user.id === service.user_id && user.is_coach && deletable() === 0" class="ui red button" (click)="removeService(service.user_id)">Service löschen</button>
+
+<div class="ui container" style="border:black solid 1px; width:50%; margin-bottom: 3em;">
+  <form *ngIf="isLoggedIn()" class="ui large form" [formGroup]="commentForm" (ngSubmit)="submitForm()">
+    <input type="hidden" formControlName="id">
+    <div class="field">
+      <label>Kommentar</label>
+      <textarea rows="3" formControlName="text"></textarea>
+    </div>
+    <button type="submit" class="ui button" [disabled]="commentForm.invalid">Speichern</button>
+  </form>
+  <div *ngFor="let comment of service.comments.reverse()">
+    {{comment.text}}
+    <a *ngIf="user.id === comment.user_id" (click)="removeComment(comment.user_id, comment.id)"><i class="delete icon"></i></a>
+    <a *ngIf="user.id === comment.user_id" (click)="editComment(comment.user_id, comment.id)"><i class="edit icon"></i></a>
+    <hr>
+  </div>
+</div>
