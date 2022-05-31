@@ -45,7 +45,7 @@ export class ServiceListPendingComponent implements OnInit {
 
   initStudentView(){
     if(this.isLoggedIn() && !this.user.is_coach) {
-      this.cs.getTimeslotAgreementsByUserIdWithPending(this.user.id).subscribe(res => this.timeslotAgreements = res);
+      this.cs.getTimeslotAgreementsPendingByUserId(this.user.id).subscribe(res => this.timeslots = res);
     }
   }
 
@@ -63,7 +63,7 @@ export class ServiceListPendingComponent implements OnInit {
   removeBooking(timeslot_id : any, agreement_id : number, user_id : number){
     if (this.isLoggedIn() && !this.user.is_coach && user_id === this.user.id) {
       let timeslot = TimeslotFactory.empty();
-      this.cs.getSingleTimeslot(timeslot_id!).subscribe(res => {
+      this.cs.getSingleTimeslot(timeslot_id).subscribe(res => {
         timeslot = res;
         timeslot.is_booked = false;
         this.cs.updateTimeslot(timeslot).subscribe(res => {

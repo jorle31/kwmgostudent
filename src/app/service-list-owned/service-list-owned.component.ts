@@ -15,8 +15,6 @@ import { TimeslotAgreement } from "../shared/timeslot-agreement";
 export class ServiceListOwnedComponent implements OnInit {
 
   services: Service[] = [];
-  servicesHistory: Service[] = [];
-  timeslotHistory: TimeslotAgreement[] = [];
   p:any;
   page:any;
   user : User = UserFactory.empty();
@@ -54,7 +52,7 @@ export class ServiceListOwnedComponent implements OnInit {
 
   initStudentView(){
     if(this.isLoggedIn() && !this.user.is_coach) {
-      this.cs.getTimeslotAgreementsByUserId(this.user.id).subscribe(res => this.timeslotHistory = res);
+      this.cs.getTimeslotAgreementsByUserId(this.user.id).subscribe(res => this.timeslots = res);
     }
   }
 }

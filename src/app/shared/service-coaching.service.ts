@@ -56,6 +56,12 @@ export class ServiceCoachingService {
   getAllServicesWithAccepted(id: number) : Observable<Array<Timeslot>> {
     return this.http.get<Array<Timeslot>>(`${this.api}/timeslots/accepted/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
+  getTimeslotAgreementsByUserId(id: number) : Observable<Array<Timeslot>> {
+    return this.http.get<Array<Timeslot>>(`${this.api}/timeslots/student/accepted/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getTimeslotAgreementsPendingByUserId(id: number) : Observable<Array<Timeslot>> {
+    return this.http.get<Array<Timeslot>>(`${this.api}/timeslots/student/pending/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
 
   /*-----------------------------------------------------------------------------------------------------------------------------------*/
   /*check(id:String) : Observable<Boolean>{
@@ -86,17 +92,11 @@ export class ServiceCoachingService {
   createTimeslotAgreement(timeslotAgreement: TimeslotAgreement) : Observable<any>{
     return this.http.post(`${this.api}/timeslotagreements`, timeslotAgreement).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
-  getTimeslotAgreementsByUserId(id: number) : Observable<Array<TimeslotAgreement>> {
-    return this.http.get<Array<TimeslotAgreement>>(`${this.api}/timeslotagreements/user/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }
   updateTimeslotAgreement(timeslotAgreement: TimeslotAgreement) : Observable<any>{
     return this.http.put(`${this.api}/timeslotagreements/${timeslotAgreement.id}`, timeslotAgreement).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
   getSpecificTimeslotAgreement(id: number) : Observable<TimeslotAgreement> {
     return this.http.get<TimeslotAgreement>(`${this.api}/timeslotagreements/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }
-  getTimeslotAgreementsByUserIdWithPending(id: number) : Observable<Array<TimeslotAgreement>> {
-    return this.http.get<Array<TimeslotAgreement>>(`${this.api}/timeslotagreements/user/pending/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
   removeTimeslotAgreement(id: number) : Observable<any> {
     return this.http.delete(`${this.api}/timeslotagreements/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));

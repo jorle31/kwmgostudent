@@ -55,7 +55,7 @@
           <div class="fields" *ngFor="let control of timeslots?.controls; index as i; last as l" [formGroupName]="i">
             <input type="hidden" formControlName="id">
             <div class="four wide field">
-              <input type="date" formControlName="date" placeholder="31.05.2022">
+              <input type="date" min="{{ thisDay | date: 'yyyy-MM-dd'}}" formControlName="date" placeholder="31.05.2022">
             </div>
             <div class="five wide field">
               <input type="time" formControlName="from" placeholder="12:45">

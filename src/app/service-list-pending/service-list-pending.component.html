@@ -15,12 +15,16 @@
         </a>
     </div>
     <div *ngIf="!user.is_coach" class="ui middle aligned selection divided list">
-      <a *ngFor="let timeslot_agreement of timeslotAgreements | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot_agreement.timeslot?.service?.id!)">
+      <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
         <div class="ui container timeslot">
-          {{timeslot_agreement.timeslot?.service?.title}}
+          {{timeslot.service?.description}}
+          {{timeslot.from}}
+          {{timeslot.until}}
+          {{timeslot.date}}
           <hr>
+          {{timeslot.service?.user?.name}}
         </div>
-        <button *ngIf="!user.is_coach && isLoggedIn() && user.id === timeslot_agreement.user_id" (click)="removeBooking(timeslot_agreement.timeslot?.id, timeslot_agreement.id, timeslot_agreement.user_id)" class="ui red button">Stornieren</button>
+        <button *ngIf="!user.is_coach && isLoggedIn() && user.id === timeslot.timeslot_agreement.user_id" (click)="removeBooking(timeslot.timeslot_agreement.timeslot_id, timeslot.timeslot_agreement.id, timeslot.timeslot_agreement.user_id)" class="ui red button">Stornieren</button>
       </a>
     </div>
   </div>

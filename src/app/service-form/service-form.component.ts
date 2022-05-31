@@ -27,7 +27,7 @@ export class ServiceFormComponent implements OnInit {
   timeslots: FormArray;
   subjects : Subject[] = [];
   user : User = UserFactory.empty();
-
+  thisDay: any;
   constructor(private fb: FormBuilder,
               private cs: ServiceCoachingService,
               private route: ActivatedRoute,
@@ -40,6 +40,7 @@ export class ServiceFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.getCurrentUser();
+    this.thisDay = new Date();
     if(this.isLoggedIn() && this.user.is_coach){
       const serviceId = this.route.snapshot.params['id'];
       if(serviceId && serviceId != 'new_service'){
@@ -105,9 +106,6 @@ export class ServiceFormComponent implements OnInit {
         this.timeslots.removeAt(i);
         this.service.timeslots.splice(i, 1);
         this.serviceForm.value.timeslots.splice(i, 1);
-        console.log(this.timeslots);
-        console.log(this.service.timeslots);
-        console.log(this.serviceForm.value.timeslots);
       }
     }
   }
@@ -146,7 +144,7 @@ export class ServiceFormComponent implements OnInit {
                 from: new FormControl(timeslot.from, [Validators.required]),
                 until: new FormControl(timeslot.until, [Validators.required]),
                 date: new FormControl(formatDate(new Date(timeslot.date), 'yyyy-MM-dd', 'en'), [Validators.required])
-              });
+              }, {validator: this.endDateAfterOrEqualValidator});
               this.timeslots.push(tg);
             }
           }
@@ -164,10 +162,32 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
+  endDateAfterOrEqualValidator(): any {
+    /*var startDateTimestamp, endDateTimestamp;
+    for(var controlName in formGroup.controls) {
+      if(controlName.indexOf("startDate") !== -1) {
+        startDateTimestamp = Date.parse(formGroup.controls[controlName].value);
+      }
+      if(controlName.indexOf("endDate") !== -1) {
+        endDateTimestamp = Date.parse(formGroup.controls[controlName].value);
+      }
+    }
+    return (endDateTimestamp < startDateTimestamp) ? { endDateLessThanStartDate: true } : null;*/
+  }
+
   submitForm(){
     if(this.isLoggedIn() && this.user.is_coach) {
       this.serviceForm.value.images = this.serviceForm.value.images.filter(
         (thumbnail: { url: string; }) => thumbnail.url
+      );
+      this.serviceForm.value.timeslots = this.serviceForm.value.timeslots.filter(
+        (timeslot: { date: Date; }) => timeslot.date,
+      );
+      this.serviceForm.value.timeslots = this.serviceForm.value.timeslots.filter(
+        (timeslot: { from: string; }) => timeslot.from,
+      );
+      this.serviceForm.value.timeslots = this.serviceForm.value.timeslots.filter(
+        (timeslot: { until: string; }) => timeslot.until,
       );
       const service: Service = ServiceFactory.fromObject(this.serviceForm.value);
       if (this.isUpdatingService && this.user.id === this.service.user_id) {
