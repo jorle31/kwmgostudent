@@ -40,9 +40,23 @@
       </div>
     </div>
     <div class="ui container center aligned">
-      <button type="submit" class="ui button" [disabled]="loginForm.invalid">Anmelden</button>
+      <button type="submit" class="ui button black" [disabled]="loginForm.invalid">Anmelden</button>
     </div>
   </form>
 </div>
 
-<button *ngIf="isLoggedIn()" class="ui button" (click)="logout()">Abmelden</button>
+<div *ngIf="isLoggedIn()">
+  <div class="ui container mtb">
+    <div class="ui grid container">
+      <div class="column bp middle aligned">
+        <img class="mb img-logo" src="assets/logo.png">
+        <p class="mb">Viel Dank dass du unseren Service nutzt! Auch wenn es für jetzt auf Wiedersehen heißt, hoffen wir dich bald wieder zu sehen, damit du deine akademischen Ziele im Handumdrehen erreichen kannst!</p>
+        <button *ngIf="isLoggedIn()" class="ui button black" (click)="logout()">Abmelden</button>
+      </div>
+      <div class="column bp">
+        <div class="logoutImage">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

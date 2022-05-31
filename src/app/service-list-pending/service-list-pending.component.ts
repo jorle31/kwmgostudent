@@ -61,13 +61,20 @@ export class ServiceListPendingComponent implements OnInit {
   }
 
   removeBooking(timeslot_id : any, agreement_id : number, user_id : number){
-    if (this.isLoggedIn() && !this.user.is_coach && user_id === this.user.id) {
+    if (this.isLoggedIn() && user_id === this.user.id) {
       let timeslot = TimeslotFactory.empty();
       this.cs.getSingleTimeslot(timeslot_id).subscribe(res => {
         timeslot = res;
         timeslot.is_booked = false;
         this.cs.updateTimeslot(timeslot).subscribe(res => {
-          this.cs.removeTimeslotAgreement(agreement_id).subscribe(res => this.initStudentView());
+          this.cs.removeTimeslotAgreement(agreement_id).subscribe(res => {
+            if(this.user.is_coach){
+              this.initCoachView();
+            }
+            else{
+              this.initStudentView();
+            }
+          });
         });
       });
     }

@@ -1,51 +1,16 @@
-<!--div class="ui grid">
-  <div class="four wide column">
-    <div class="ui vertical fluid tabular menu">
-      <a class="active item">
-        Bio
-      </a>
-      <a class="item">
-        Pics
-      </a>
-      <a class="item">
-        Companies
-      </a>
-      <a class="item">
-        Links
-      </a>
+<div class="serviceItem ui grid middle aligned">
+    <div class="ui image column four wide computer four wide tablet sixteen wide mobile">
+      <img class="ui thumbnailImage"
+           *ngIf="service && service.images && service.images[0]"
+           [src]="service.images[0].url">
     </div>
-  </div>
-  <div class="twelve wide stretched column">
-    <div class="ui segment">
-      This is an stretched grid column. This segment will always match the tab height
-    </div>
-  </div>
-</div-->
-
-<!--img class="ui tiny image" *ngIf="service && service.images && service.images[0]" [src]="service.images[0].url"-->
-<div class="content">
-  <div class="header" >{{service?.title}}</div>
-  <div class="header" >{{service?.subtitle}}</div>
-  <div class="header" >{{service?.description}}</div>
-</div>
-
-<div class="item">
-  <div class="ui small image">
-
-  </div>
-  <div class="content">
-    <a class="header">Content Header</a>
-    <div class="meta">
-      <a>Date</a>
-      <a>Category</a>
+    <div class="content ui column twelve wide computer twelve wide tablet sixteen wide mobile">
+    <h2 class="header mb-small">{{service?.title}}</h2>
+    <div class="meta mb-small">
+      <p>{{service?.subtitle}} - {{service?.user?.name}} - {{service?.created_at | date:'dd.MM.yyyy'}}</p>
     </div>
     <div class="description">
-      A description which may flow for several lines and give context to the content.
+      {{service?.description | slice: 0:250}}{{service?.description?.length! > 250 ? '...' : ''}}
     </div>
-    <div class="extra">
-
     </div>
-  </div>
 </div>
-
-<!--div *ngFor="service.timeslot of service.timeslots"> 1</div-->

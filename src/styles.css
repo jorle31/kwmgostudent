@@ -1,4 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
+body{
+  font-size: 16px !important;
+  color: #1B1C1D;
+}
 body>.grid {
   height: 100%;
   background-color: #DADADA;
@@ -68,4 +71,123 @@ body>.grid {
 .formSection{
   margin-top: 3em;
   margin-bottom: 3em;
+}
+
+.mtb{
+  margin: 3em 0 3em 0;
+}
+
+.ma{
+  margin: 3em 3em 3em 3em;
+}
+
+.mlr{
+  margin: 0 3em 0 3em;
+}
+
+.mb{
+  margin-bottom: 3em !important;
+}
+
+.mt-1{
+  margin-top: 1.5em !important;
+}
+
+.mb-1{
+  margin-bottom: 1.5em !important;
+}
+
+.mb-small{
+  margin-bottom: 0.5em !important;
+}
+
+@media (max-width: 767px) {
+  .bp{
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 767px) {
+  .bp{
+    width: 50% !important;
+  }
+}
+
+.logoutImage{
+  background-image: url('assets/login_cta_image.jpg') !important;
+  background-size:     cover;
+  background-repeat:   no-repeat;
+  background-position: center center;
+  height: 20em;
+}
+
+.img-logo{
+ width: 8em;
+}
+
+.serviceItem{
+  min-height: 10em;
+}
+
+.createCta{
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-radius: 0.5em;
+  padding: 2em;
+}
+
+.section{
+  margin-bottom: 3em;
+  margin-top: 3em;
+}
+
+.ngx-pagination{
+  padding-left: 0 !important;
+}
+
+.current{
+  background-color: #1B1C1D !important;
+}
+
+.acceptButton{
+  background-color: teal !important;
+  color: white !important;
+}
+
+.deleteButton{
+  background-color: indianred !important;
+  color: white !important;
+}
+
+.footer{
+  height:7.5em;
+}
+
+.footer > div {
+  margin-top: 1.25em;
+}
+
+.pendingButton{
+  margin-top: 0.5em;
+  position: relative !important;
+}
+
+.pointer:hover{
+  cursor:  pointer;
+  color: teal;
+}
+
+.pointerRed:hover{
+  color: indianred;
+  cursor: pointer;
+}
+
+.detailsImage{
+  width:100%;
+}
+
+.commentBox{
+  margin-top: 3em;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-radius: 0.5em;
+  padding: 2em;
 }

@@ -1,53 +1,84 @@
-<h2 class="ui center aligned header sectionHeader">Meine gebuchten Aufträge</h2>
-<div class="ui container servicesList">
-  <div class="ui relaxed divided items">
-    <div *ngIf="user.is_coach" class="ui middle aligned selection divided list">
-      <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
-        <div class="ui container timeslot">
-          {{timeslot.service?.description}}
-          {{timeslot.from}}
-          {{timeslot.until}}
-          {{timeslot.date}}
-          <hr>
-          {{timeslot.timeslot_agreement.user.name}}
+<div class="ui container section">
+  <h2 class="ui center aligned header sectionHeader">Meine gebuchten Aufträge/History</h2>
+  <div class="ui container servicesList">
+    <div class="ui relaxed divided items">
+      <div *ngIf="user.is_coach" class="ui middle aligned selection divided list">
+        <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
+          <div class="serviceItem ui grid middle aligned">
+            <div class="ui image column four wide computer four wide tablet sixteen wide mobile">
+              <img class="ui thumbnailImage"
+                   *ngIf="timeslot.service && timeslot.service.images && timeslot.service.images[0]"
+                   [src]="timeslot.service.images[0].url">
+            </div>
+            <div class="content ui column twelve wide computer twelve wide tablet sixteen wide mobile">
+              <h2 class="header mb-small">{{timeslot.service?.title}}</h2>
+              <div class="meta mb-small">
+                <p>{{timeslot.service?.subtitle}} | {{timeslot.date | date:'dd.MM.yyyy'}} von: {{timeslot.from | slice: 0:5}} - {{timeslot.until | slice: 0:5}}</p>
+                <p>Gebucht von: {{timeslot.timeslot_agreement?.user?.name}} | <i class="mail icon"></i> : {{timeslot.timeslot_agreement?.user?.email}} | <i class="teletype icon"></i>: {{timeslot.timeslot_agreement?.user?.telephone}}</p>
+                <p>Status: {{timeslot.status === 0 ? 'noch zu erledigen' : null}}{{timeslot.status === 1 ? 'Abgesagt' : null}}{{timeslot.status === 2 ? 'Verschoben' : null}}{{timeslot.status === 3 ? 'Student:in nicht erschienen' : null}}{{timeslot.status === 4 ? 'Erfolgreich abgeschlossen' : null}}</p>
+              </div>
+            </div>
+          </div>
+        </a>
+        <div class="ui container center aligned">
+          <p *ngIf="services.length === 0">Noch keine Buchungen vorhanden!</p>
         </div>
-      </a>
-    </div>
-    <div *ngIf="!user.is_coach" class="ui middle aligned selection divided list">
-      <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
-        <div class="ui container timeslot">
-          {{timeslot.service?.description}}
-          {{timeslot.from}}
-          {{timeslot.until}}
-          {{timeslot.date}}
-          <hr>
-          {{timeslot.service?.user?.name}}
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
-<pagination-controls (pageChange)="page = $event" previousLabel="Zurück" nextLabel="Weiter"></pagination-controls>
-
-
-<h2 class="ui center aligned header sectionHeader">Neues Angebote erstellen</h2>
-<div class="ui container center aligned">
-  <button routerLink="new_service" class="ui button">Neues Angebot Erstellen</button>
-</div>
-
-<h2 class="ui center aligned header sectionHeader">Meine Angebote</h2>
-<div class="ui container servicesList">
-  <div class="ui relaxed divided items">
-    <div class="ui middle aligned selection divided list">
-      <a *ngFor="let service of services | paginate: { itemsPerPage: 10, currentPage: p }" class="item kgs-service-list-item" [service]="service" [routerLink]="'../../services/'+$any(service.id)">
-      </a>
-      <!--div *ngIf="services && !services.length && services.length > 0" class="ui active dimmer">
-        <div class="ui large text loader">
-          Daten werden geladen!
-        </div>
-      </div-->
-      <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
+      </div>
+      <div *ngIf="!user.is_coach" class="ui middle aligned selection divided list">
+        <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
+          <div class="serviceItem ui grid middle aligned">
+            <div class="ui image column four wide computer four wide tablet sixteen wide mobile">
+              <img class="ui thumbnailImage"
+                   *ngIf="timeslot.service && timeslot.service.images && timeslot.service.images[0]"
+                   [src]="timeslot.service.images[0].url">
+            </div>
+            <div class="content ui column twelve wide computer twelve wide tablet sixteen wide mobile">
+              <h2 class="header mb-small">{{timeslot.service?.title}}</h2>
+              <div class="meta mb-small">
+                <p>{{timeslot.service?.subtitle}} | {{timeslot.date | date:'dd.MM.yyyy'}} von: {{timeslot.from | slice: 0:5}} - {{timeslot.until | slice: 0:5}}</p>
+                <p>Anbieter: {{timeslot.service?.user?.name}} | <i class="mail icon"></i> : {{timeslot.service?.user?.email}} | <i class="teletype icon"></i>: {{timeslot.service?.user?.telephone}}</p>
+                <p>Status: {{timeslot.status === 0 ? 'noch zu erledigen' : null}}{{timeslot.status === 1 ? 'Abgesagt' : null}}{{timeslot.status === 2 ? 'Verschoben' : null}}{{timeslot.status === 3 ? 'Student:in nicht erschienen' : null}}{{timeslot.status === 4 ? 'Erfolgreich abgeschlossen' : null}}</p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
+  <div class="ui container center aligned">
+    <pagination-controls (pageChange)="page = $event" previousLabel="Zurück" nextLabel="Weiter"></pagination-controls>
+  </div>
 </div>
-<pagination-controls (pageChange)="p = $event" previousLabel="Zurück" nextLabel="Weiter"></pagination-controls>
+
+<div *ngIf="user.is_coach && isLoggedIn()" class="ui container createCta section">
+  <h2 class="ui center aligned header">Neues Angebote erstellen</h2>
+  <div class="ui container center aligned mb-1">
+    Erstelle gleich jetzt dein eigenes Nachhilfeangebot und erhalte Aufträge!
+  </div>
+  <div class="ui container center aligned">
+    <button routerLink="new_service" class="ui button black">Neues Angebot erstellen</button>
+  </div>
+</div>
+
+<div *ngIf="user.is_coach && isLoggedIn()" class="ui container section">
+  <h2 class="ui center aligned header sectionHeader">Meine Angebote</h2>
+  <div class="ui container servicesList">
+    <div class="ui relaxed divided items">
+      <div class="ui middle aligned selection divided list">
+        <a *ngFor="let service of services | paginate: { itemsPerPage: 10, currentPage: p }" class="item kgs-service-list-item" [service]="service" [routerLink]="'../../services/'+$any(service.id)">
+        </a>
+        <div *ngIf="services && !services.length && services.length > 0" class="ui active dimmer">
+          <div class="ui large text loader">
+            Daten werden geladen!
+          </div>
+        </div>
+        <div class="ui container center aligned">
+          <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui container center aligned">
+    <pagination-controls (pageChange)="p = $event" previousLabel="Zurück" nextLabel="Weiter"></pagination-controls>
+  </div>
+</div>

@@ -18,6 +18,7 @@ export class Service {
     public comments: Comment[],
     public subtitle?: string,
     public user?: User,
+    public created_at?: Date,
   ) {
   }
 }

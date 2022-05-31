@@ -1,32 +1,65 @@
 <h2 class="ui center aligned header sectionHeader">Meine Anfragen</h2>
-<div class="ui container servicesList">
+<div class="ui container servicesList_pending">
   <div class="ui relaxed divided items">
     <div *ngIf="user.is_coach" class="ui middle aligned selection divided list">
-        <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
-          <div class="ui container timeslot">
-            {{timeslot.service?.description}}
-            {{timeslot.from}}
-            {{timeslot.until}}
-            {{timeslot.date}}
-            <hr>
-            {{timeslot.timeslot_agreement.user.name}}
+      <ng-container *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }">
+        <div class="item">
+          <a [routerLink]="'../../services/'+$any(timeslot.service?.id)">
+            <div class="serviceItem ui grid middle aligned">
+              <div class="ui image column four wide computer four wide tablet sixteen wide mobile">
+                <img class="ui thumbnailImage"
+                     *ngIf="timeslot.service && timeslot.service.images && timeslot.service.images[0]"
+                     [src]="timeslot.service.images[0].url">
+              </div>
+              <div class="content ui column twelve wide computer twelve wide tablet sixteen wide mobile">
+                <h2 class="header mb-small">{{timeslot.service?.title}}</h2>
+                <div class="meta mb-small">
+                  <p>{{timeslot.service?.subtitle}} | {{timeslot.date | date:'dd.MM.yyyy'}} von: {{timeslot.from}} - {{timeslot.until}}</p>
+                  <p>Gebucht von: {{timeslot.timeslot_agreement?.user?.name}} | <i class="mail icon"></i> : {{timeslot.timeslot_agreement?.user?.email}} | <i class="teletype icon"></i>: {{timeslot.timeslot_agreement?.user?.telephone}}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="ui container">
+            <button *ngIf="user.is_coach && isLoggedIn() && user.id === timeslot.service?.user_id" (click)="finalizeBooking(timeslot.id, timeslot.service?.user_id!)" class="ui acceptButton pendingButton button">Annehmen</button>
+            <button *ngIf="user.is_coach && isLoggedIn() && user.id === timeslot.service?.user_id" (click)="removeBooking(timeslot.timeslot_agreement.timeslot_id, timeslot.timeslot_agreement.id, timeslot.service?.user_id!)" class="ui deleteButton pendingButton button">Ablehnen</button>
           </div>
-          <button *ngIf="user.is_coach && isLoggedIn() && user.id === timeslot.service?.user_id" (click)="finalizeBooking(timeslot.id, timeslot.service?.user_id!)" class="ui red button">Annehmen</button>
-        </a>
+        </div>
+      </ng-container>
+      <div class="ui container center aligned mb">
+        <p *ngIf="timeslots.length === 0">Noch keine Anfragen vorhanden!</p>
+      </div>
     </div>
     <div *ngIf="!user.is_coach" class="ui middle aligned selection divided list">
-      <a *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }" class="item" [routerLink]="'../../services/'+$any(timeslot.service?.id)">
-        <div class="ui container timeslot">
-          {{timeslot.service?.description}}
-          {{timeslot.from}}
-          {{timeslot.until}}
-          {{timeslot.date}}
-          <hr>
-          {{timeslot.service?.user?.name}}
+      <ng-container *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }">
+        <div class="item">
+          <a [routerLink]="'../../services/'+$any(timeslot.service?.id)">
+            <div class="serviceItem ui grid middle aligned">
+              <div class="ui image column four wide computer four wide tablet sixteen wide mobile">
+                <img class="ui thumbnailImage"
+                     *ngIf="timeslot.service && timeslot.service.images && timeslot.service.images[0]"
+                     [src]="timeslot.service.images[0].url">
+              </div>
+              <div class="content ui column twelve wide computer twelve wide tablet sixteen wide mobile">
+                <h2 class="header mb-small">{{timeslot.service?.title}}</h2>
+                <div class="meta mb-small">
+                  <p>{{timeslot.service?.subtitle}} | {{timeslot.date | date:'dd.MM.yyyy'}} von: {{timeslot.from}} - {{timeslot.until}}</p>
+                  <p>Gebucht von: {{timeslot.timeslot_agreement?.user?.name}} | <i class="mail icon"></i> : {{timeslot.timeslot_agreement?.user?.email}} | <i class="teletype icon"></i>: {{timeslot.timeslot_agreement?.user?.telephone}}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="ui container">
+            <button *ngIf="!user.is_coach && isLoggedIn() && user.id === timeslot.timeslot_agreement?.user_id" (click)="removeBooking(timeslot.timeslot_agreement.timeslot_id, timeslot.timeslot_agreement.id, timeslot.timeslot_agreement?.user_id!)" class="ui deleteButton pendingButton button">Stornieren</button>
+          </div>
         </div>
-        <button *ngIf="!user.is_coach && isLoggedIn() && user.id === timeslot.timeslot_agreement.user_id" (click)="removeBooking(timeslot.timeslot_agreement.timeslot_id, timeslot.timeslot_agreement.id, timeslot.timeslot_agreement.user_id)" class="ui red button">Stornieren</button>
-      </a>
+      </ng-container>
+      <div class="ui container center aligned mb">
+        <p *ngIf="timeslots.length === 0">Noch keine Anfragen vorhanden!</p>
+      </div>
     </div>
   </div>
 </div>
-<pagination-controls (pageChange)="p = $event" previousLabel="Zurück" nextLabel="Weiter"></pagination-controls>
+<div class="ui container center aligned mb">
+  <pagination-controls (pageChange)="p = $event" previousLabel="Zurück" nextLabel="Weiter"></pagination-controls>
+</div>

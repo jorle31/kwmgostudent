@@ -4,15 +4,17 @@
     <div class="ui middle aligned selection divided list">
       <a *ngFor="let service of services" class="item kgs-service-list-item" [service]="service" [routerLink]="'../services/'+$any(service.id)">
       </a>
-      <!--div *ngIf="services && !services.length" class="ui active dimmer">
+      <div *ngIf="services && !services.length" class="ui active dimmer">
         <div class="ui large text loader">
           Daten werden geladen!
         </div>
-      </div-->
-      <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
+      </div>
+      <div class="ui container center aligned">
+        <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
+      </div>
     </div>
     <div class="ui container center aligned showMore">
-      <button routerLink="../services" class="ui button">Mehr Anzeigen</button>
+      <button routerLink="../services" class="ui button black">Mehr Anzeigen</button>
     </div>
   </div>
 </div>

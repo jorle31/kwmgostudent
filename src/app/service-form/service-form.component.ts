@@ -144,7 +144,7 @@ export class ServiceFormComponent implements OnInit {
                 from: new FormControl(timeslot.from, [Validators.required]),
                 until: new FormControl(timeslot.until, [Validators.required]),
                 date: new FormControl(formatDate(new Date(timeslot.date), 'yyyy-MM-dd', 'en'), [Validators.required])
-              }, {validator: this.endDateAfterOrEqualValidator});
+              });
               this.timeslots.push(tg);
             }
           }
@@ -162,19 +162,6 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  endDateAfterOrEqualValidator(): any {
-    /*var startDateTimestamp, endDateTimestamp;
-    for(var controlName in formGroup.controls) {
-      if(controlName.indexOf("startDate") !== -1) {
-        startDateTimestamp = Date.parse(formGroup.controls[controlName].value);
-      }
-      if(controlName.indexOf("endDate") !== -1) {
-        endDateTimestamp = Date.parse(formGroup.controls[controlName].value);
-      }
-    }
-    return (endDateTimestamp < startDateTimestamp) ? { endDateLessThanStartDate: true } : null;*/
-  }
-
   submitForm(){
     if(this.isLoggedIn() && this.user.is_coach) {
       this.serviceForm.value.images = this.serviceForm.value.images.filter(
@@ -190,12 +177,14 @@ export class ServiceFormComponent implements OnInit {
         (timeslot: { until: string; }) => timeslot.until,
       );
       const service: Service = ServiceFactory.fromObject(this.serviceForm.value);
+      console.log(service);
       if (this.isUpdatingService && this.user.id === this.service.user_id) {
         this.cs.update(service).subscribe(res => {
           this.router.navigate(['../../../services', service.id], {relativeTo: this.route});
         });
       } else {
         service.user_id = this.authService.getCurrentUser().id;
+        console.log(service);
         this.cs.create(service).subscribe(res => {
           this.service = ServiceFactory.empty();
           this.serviceForm.reset(ServiceFactory.empty());
