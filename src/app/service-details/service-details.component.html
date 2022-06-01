@@ -46,7 +46,7 @@
       <button *ngIf="!timeslot.is_booked && isLoggedIn() && user.id !== service.user_id && !user.is_coach" (click)="setBooked(timeslot.id)" class="ui red button">Buchen</button>
       <span *ngIf="timeslot.is_booked">{{ user.id === service.user_id ? timeslot.timeslot_agreement.user.name : user.id === timeslot.timeslot_agreement.user.id ? 'Timeslot gebucht!' : 'Bereits vergeben!' }}</span>
       <span *ngIf="!timeslot.is_booked && !isLoggedIn()">Bitte logge dich ein um ein Angebot buchen zu können!</span>
-      <span *ngIf="!timeslot.is_booked && isLoggedIn()">Noch keine Interessenten!</span>
+      <span *ngIf="!timeslot.is_booked && isLoggedIn() && user.is_coach">Noch keine Interessenten!</span>
     </td>
     <td *ngIf="user.id === service.user_id && user.is_coach">
       <ng-container *ngIf="user.is_coach && user.id === service.user_id" [ngSwitch]="timeslot.status">
@@ -73,7 +73,7 @@
       </form>
     </td>
     <td *ngIf="isLoggedIn() && user.id === service.user_id && user.is_coach">
-      <button *ngIf="isLoggedIn() && user.id === service.user_id && user.is_coach" class="ui button black" (click)="removeTimeslot(timeslot.id, service.user_id)">Timeslot löschen</button>
+      <button *ngIf="isLoggedIn() && user.id === service.user_id && user.is_coach && !timeslot.timeslot_agreement" class="ui button black" (click)="removeTimeslot(timeslot.id, service.user_id)">Timeslot löschen</button>
     </td>
     </tbody>
   </table>
