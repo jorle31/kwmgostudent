@@ -10,6 +10,7 @@ import { AuthenticationService } from "../shared/authentication.service";
 import { formatDate } from "@angular/common";
 import { User } from "../shared/user";
 import { UserFactory } from "../shared/user-factory";
+import {TimeslotFactory} from "../shared/timeslot-factory";
 
 @Component({
   selector: 'kgs-service-form',
@@ -133,12 +134,14 @@ export class ServiceFormComponent implements OnInit {
   }
 
   buildTimeslotsArray(){
+    let count = 0;
     if(this.isLoggedIn() && this.user.is_coach) {
       if(this.service.timeslots) {
         this.timeslots = this.fb.array([]);
         for (let timeslot of this.service.timeslots) {
           if(this.isUpdatingService){
             if(!timeslot.timeslot_agreement && !timeslot.is_booked) {
+              count++;
               let tg = this.fb.group({
                 id: new FormControl(timeslot.id),
                 from: new FormControl(timeslot.from, [Validators.required]),
@@ -149,6 +152,7 @@ export class ServiceFormComponent implements OnInit {
             }
           }
           else{
+            count++;
             let tg = this.fb.group({
               id: new FormControl(timeslot.id),
               from: new FormControl(timeslot.from, [Validators.required]),
@@ -158,6 +162,16 @@ export class ServiceFormComponent implements OnInit {
             this.timeslots.push(tg);
           }
         }
+      }
+      if(count === 0){
+        let timeslot = TimeslotFactory.empty();
+        let tg = this.fb.group({
+          id: new FormControl(timeslot.id),
+          from: new FormControl(timeslot.from, [Validators.required]),
+          until: new FormControl(timeslot.until, [Validators.required]),
+          date: new FormControl(formatDate(new Date(timeslot.date), 'yyyy-MM-dd', 'en'), [Validators.required])
+        });
+        this.timeslots.push(tg);
       }
     }
   }

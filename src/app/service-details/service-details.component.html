@@ -98,7 +98,7 @@
     </div>
     <button type="submit" class="ui black button" [disabled]="commentForm.invalid">Speichern</button>
   </form>
-  <div class="commentBox">
+  <div *ngIf="service.comments.length" class="commentBox">
     <div *ngFor="let comment of service.comments.reverse(), last as l" class="mb-1">
       {{comment.user?.name}}, {{comment.created_at | date:'dd.MM.yyyy'}}, sagt:
       <div class="comment mb-1 mt-1">
