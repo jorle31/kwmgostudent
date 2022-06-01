@@ -6,9 +6,9 @@
   <a *ngIf="isLoggedIn()" (click)="toggleMenu()" routerLink="user/pending" routerLinkActive="active" class="item">Ausstehende Bestätigungen</a>
 </div>
 
-<div class="ui inverted vertical landing-image masthead center aligned segment">
+<div class="ui vertical masthead center aligned segment">
   <div class="ui container">
-    <div class="ui large secondary inverted menu">
+    <div class="ui large secondary menu">
       <a class="toc item" (click)="toggleMenu()">
         <i class="sidebar icon"></i>
       </a>
@@ -18,16 +18,20 @@
       <a *ngIf="isLoggedIn() && showNormalMenu" routerLink="user/pending" routerLinkActive="active" class="item hidden-mobile">Ausstehende Bestätigungen</a>
       <div class="right item">
         <span *ngIf="isLoggedIn()" class="profileText"> <i class="user icon"></i>{{getCurrentUser().name}}</span>
-        <a *ngIf="isLoggedIn()" (click)="logout()" routerLink="home" routerLinkActive="active" class="ui inverted button">Logout</a>
-        <a *ngIf="!isLoggedIn()" routerLink="login" routerLinkActive="active" class="ui inverted button">Login</a>
+        <a *ngIf="isLoggedIn()" (click)="logout()" routerLink="home" routerLinkActive="active" class="ui black button">Logout</a>
+        <a *ngIf="!isLoggedIn()" routerLink="login" routerLinkActive="active" class="ui black button">Login</a>
       </div>
     </div>
   </div>
-  <div class="ui text container textContainer">
-    <h1 class="ui inverted header">
-      KWM Go Student
-    </h1>
-    <h2>Nachhilfeservice</h2>
+</div>
+<div class="banner-image">
+  <div class="hero-text">
+    <div class="ui text container textContainer">
+      <h1 class="ui inverted header">
+        KWM Go Student
+      </h1>
+      <h2>Nachhilfeservice</h2>
+    </div>
   </div>
 </div>
 <!-- page content -->

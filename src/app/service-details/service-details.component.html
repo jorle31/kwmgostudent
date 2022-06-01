@@ -79,9 +79,9 @@
   </table>
 </div>
 
-<div class="section ui container">
+<div *ngIf="service && service.images.length > 1" class="section ui container">
   <h2>Gallerie</h2>
-  <div *ngIf="service && service.images" class="ui container section">
+  <div class="ui container section">
     <div class="ui medium images">
       <img *ngFor="let image of service.images" src="{{image.url}}">
     </div>
@@ -99,7 +99,7 @@
     <button type="submit" class="ui black button" [disabled]="commentForm.invalid">Speichern</button>
   </form>
   <div *ngIf="service.comments.length" class="commentBox">
-    <div *ngFor="let comment of service.comments.reverse(), last as l" class="mb-1">
+    <div *ngFor="let comment of service.comments, last as l" class="mb-1">
       {{comment.user?.name}}, {{comment.created_at | date:'dd.MM.yyyy'}}, sagt:
       <div class="comment mb-1 mt-1">
         {{comment.text}}
