@@ -1,4 +1,4 @@
-<div class="ui container section">
+<div class="ui container section min-height">
   <h2 class="ui center aligned header sectionHeader">Meine gebuchten Aufträge/History</h2>
   <div class="ui container servicesList">
     <div class="ui relaxed divided items">
@@ -21,7 +21,7 @@
           </div>
         </a>
         <div class="ui container center aligned">
-          <p *ngIf="services.length === 0">Noch keine Buchungen vorhanden!</p>
+          <p *ngIf="timeslots.length === 0">Noch keine Buchungen vorhanden!</p>
         </div>
       </div>
       <div *ngIf="!user.is_coach" class="ui middle aligned selection divided list">
@@ -43,7 +43,7 @@
           </div>
         </a>
         <div class="ui container center aligned">
-          <p *ngIf="services.length === 0">Noch keine Buchungen vorhanden!</p>
+          <p *ngIf="timeslots.length === 0">Noch keine Buchungen vorhanden!</p>
         </div>
       </div>
     </div>
@@ -70,11 +70,6 @@
       <div class="ui middle aligned selection divided list">
         <a *ngFor="let service of services | paginate: { itemsPerPage: 10, currentPage: p }" class="item kgs-service-list-item" [service]="service" [routerLink]="'../../services/'+$any(service.id)">
         </a>
-        <div *ngIf="services && !services.length && services.length > 0" class="ui active dimmer">
-          <div class="ui large text loader">
-            Daten werden geladen!
-          </div>
-        </div>
         <div class="ui container center aligned">
           <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
         </div>

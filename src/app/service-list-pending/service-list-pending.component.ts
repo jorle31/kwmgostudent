@@ -15,7 +15,6 @@ import { TimeslotFactory } from "../shared/timeslot-factory";
 })
 export class ServiceListPendingComponent implements OnInit {
 
-  timeslotAgreements: TimeslotAgreement[] = [];
   p:any;
   user : User = UserFactory.empty();
   services: Service[] = [];

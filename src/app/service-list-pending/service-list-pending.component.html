@@ -1,5 +1,5 @@
 <h2 class="ui center aligned header sectionHeader">Meine Anfragen</h2>
-<div class="ui container servicesList_pending">
+<div class="ui container servicesList_pending min-height">
   <div class="ui relaxed divided items">
     <div *ngIf="user.is_coach" class="ui middle aligned selection divided list">
       <ng-container *ngFor="let timeslot of timeslots | paginate: { itemsPerPage: 10, currentPage: p }">

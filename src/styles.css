@@ -208,3 +208,7 @@ body>.grid {
   }
 }
 
+.min-height{
+  min-height: 10em;
+}
+

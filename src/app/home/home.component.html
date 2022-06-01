@@ -1,7 +1,7 @@
 <h2 class="ui center aligned header sectionHeader">Neue Angebote</h2>
 <div class="ui container servicesList">
   <div class="ui relaxed divided items">
-    <div class="ui middle aligned selection divided list">
+    <div class="ui middle aligned selection divided list min-height">
       <a *ngFor="let service of services" class="item kgs-service-list-item" [service]="service" [routerLink]="'../services/'+$any(service.id)">
       </a>
       <div class="ui container center aligned">
