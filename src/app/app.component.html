@@ -1,20 +1,21 @@
-<div id="sidebarMenu" class="ui sidebar inverted vertical menu">
-  <a routerLink="home" routerLinkActive="active" class="item">Home</a>
-  <a routerLink="services" routerLinkActive="active" class="item">Services</a>
-  <a *ngIf="isLoggedIn()" routerLink="user/services" routerLinkActive="active" class="item">My Services</a>
-  <a *ngIf="isLoggedIn()" routerLink="user/pending" routerLinkActive="active" class="item">Marked Services</a>
+<div *ngIf="showBurgerMenu" id="sidebarMenu" class="ui sidebar inverted visible vertical menu">
+  <a class="item" (click)="toggleMenu()">X</a>
+  <a (click)="toggleMenu()" routerLink="home" routerLinkActive="active" class="item">Home</a>
+  <a (click)="toggleMenu()" routerLink="services" routerLinkActive="active" class="item">Services</a>
+  <a *ngIf="isLoggedIn()" (click)="toggleMenu()" routerLink="user/services" routerLinkActive="active" class="item">{{getCurrentUser().is_coach ? 'Meine Angebote' : 'Gebuchte Angebote'}}</a>
+  <a *ngIf="isLoggedIn()" (click)="toggleMenu()" routerLink="user/pending" routerLinkActive="active" class="item">Ausstehende Bestätigungen</a>
 </div>
 
 <div class="ui inverted vertical landing-image masthead center aligned segment">
   <div class="ui container">
     <div class="ui large secondary inverted menu">
-      <a class="toc item">
+      <a class="toc item" (click)="toggleMenu()">
         <i class="sidebar icon"></i>
       </a>
-      <a routerLink="home" routerLinkActive="active" class="item hidden-mobile">Home</a>
-      <a routerLink="services" routerLinkActive="active" class="item hidden-mobile">Services</a>
-      <a *ngIf="isLoggedIn()" routerLink="user/services" routerLinkActive="active" class="item hidden-mobile">{{getCurrentUser().is_coach ? 'Meine Angebote' : 'Gebuchte Angebote'}}</a>
-      <a *ngIf="isLoggedIn()" routerLink="user/pending" routerLinkActive="active" class="item hidden-mobile">Ausstehende Bestätigungen</a>
+      <a *ngIf="showNormalMenu" routerLink="home" routerLinkActive="active" class="item hidden-mobile">Home</a>
+      <a *ngIf="showNormalMenu" routerLink="services" routerLinkActive="active" class="item hidden-mobile">Services</a>
+      <a *ngIf="isLoggedIn() && showNormalMenu" routerLink="user/services" routerLinkActive="active" class="item hidden-mobile">{{getCurrentUser().is_coach ? 'Meine Angebote' : 'Gebuchte Angebote'}}</a>
+      <a *ngIf="isLoggedIn() && showNormalMenu" routerLink="user/pending" routerLinkActive="active" class="item hidden-mobile">Ausstehende Bestätigungen</a>
       <div class="right item">
         <span *ngIf="isLoggedIn()" class="profileText"> <i class="user icon"></i>{{getCurrentUser().name}}</span>
         <a *ngIf="isLoggedIn()" (click)="logout()" routerLink="home" routerLinkActive="active" class="ui inverted button">Logout</a>
@@ -32,7 +33,7 @@
 <!-- page content -->
 <router-outlet></router-outlet>
 <!--Footer -->
-<div class="ui inverted vertical footer segment center aligned">
+<div class="ui inverted vertical footer segment center aligned" (click)="closeBurger()">
   <div class="ui container">
     <b>KWMGoStudent©</b>
     <p>27.05.2022</p>

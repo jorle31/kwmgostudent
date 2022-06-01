@@ -177,14 +177,12 @@ export class ServiceFormComponent implements OnInit {
         (timeslot: { until: string; }) => timeslot.until,
       );
       const service: Service = ServiceFactory.fromObject(this.serviceForm.value);
-      console.log(service);
       if (this.isUpdatingService && this.user.id === this.service.user_id) {
         this.cs.update(service).subscribe(res => {
           this.router.navigate(['../../../services', service.id], {relativeTo: this.route});
         });
       } else {
         service.user_id = this.authService.getCurrentUser().id;
-        console.log(service);
         this.cs.create(service).subscribe(res => {
           this.service = ServiceFactory.empty();
           this.serviceForm.reset(ServiceFactory.empty());

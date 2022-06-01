@@ -9,8 +9,28 @@ import { Service } from "./shared/service";
 export class AppComponent {
   title = 'kwmgostudent';
   service : Service | undefined;
+  showBurgerMenu : boolean = false;
+  showNormalMenu : boolean = true;
 
   constructor(private authService:AuthenticationService) {
+  }
+
+  toggleMenu(){
+    if(this.showBurgerMenu){
+      this.showBurgerMenu = false;
+      this.showNormalMenu = true;
+    }
+    else{
+      this.showBurgerMenu = true;
+      this.showNormalMenu = false;
+    }
+  }
+
+  closeBurger (){
+    if(this.showBurgerMenu){
+      this.showBurgerMenu = false;
+      this.showNormalMenu = true;
+    }
   }
 
   isLoggedIn(){

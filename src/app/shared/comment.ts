@@ -9,6 +9,7 @@ export class Comment {
     public service_id: number,
     public user_id: number,
     public text: string,
-    public created_at: Date
+    public created_at: Date,
+    public user?: User
   ) {}
 }

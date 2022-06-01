@@ -191,3 +191,20 @@ body>.grid {
   border-radius: 0.5em;
   padding: 2em;
 }
+
+
+@media (max-width: 767px) {
+  .mb-sm-form{
+    margin-bottom: 0.5em !important;
+  }
+  .mb-bg-form{
+    margin-bottom: 1.5em !important;
+  }
+  .mt-sm-form{
+    margin-top:1.5em !important;
+  }
+  .mr-sm-form{
+    margin-right: 1.5em !important;
+  }
+}
+

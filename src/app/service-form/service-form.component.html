@@ -34,39 +34,39 @@
       <div formArrayName="images">
         <div class="fields" *ngFor="let control of images?.controls; index as i; last as l" [formGroupName]="i">
           <input type="hidden" formControlName="id">
-          <div class="nine wide field">
+          <div class="nine wide field mb-sm-form">
             <input formControlName="url" placeholder="https://bild{{i+1}}_url">
           </div>
-          <div class="five wide field">
+          <div class="five wide field mb-sm-form">
             <input formControlName="title" placeholder="bild{{i+1}}_title">
           </div>
-          <div class="one wide field" *ngIf="l">
+          <div class="one wide field mr-sm-form" *ngIf="l">
             <button (click)="addThumbnailControl()" class="ui large black button" type="button">+</button>
           </div>
-          <div class="one wide field" *ngIf="images.length > 1 && i !== 0">
+          <div class="one wide field mb-bg-form" *ngIf="images.length > 1 && i !== 0">
             <button (click)="addThumbnailControlDelete(i)" class="ui large black button" type="button">-</button>
           </div>
         </div>
       </div>
 
       <div class="field">
-        <label>Zeitslots</label>
+        <label class="mt-sm-form">Zeitslots</label>
         <div formArrayName="timeslots">
           <div class="fields" *ngFor="let control of timeslots?.controls; index as i; last as l" [formGroupName]="i">
             <input type="hidden" formControlName="id">
-            <div class="four wide field">
+            <div class="four wide field mb-sm-form">
               <input type="date" min="{{ thisDay | date: 'yyyy-MM-dd'}}" formControlName="date" placeholder="31.05.2022">
             </div>
-            <div class="five wide field">
+            <div class="five wide field mb-sm-form">
               <input type="time" formControlName="from" placeholder="12:45">
             </div>
-            <div class="five wide field">
+            <div class="five wide field mb-sm-form">
               <input type="time" formControlName="until" placeholder="13:30">
             </div>
-            <div class="one wide field" *ngIf="l">
+            <div class="one wide field mr-sm-form" *ngIf="l">
               <button (click)="addTimeslotControl()" class="ui large black button" type="button">+</button>
             </div>
-            <div class="one wide field" *ngIf="timeslots.length > 1 && i !== 0">
+            <div class="one wide field mb-bg-form" *ngIf="timeslots.length > 1 && i !== 0">
               <button (click)="addTimeslotControlDelete(i)" class="ui large black button" type="button">-</button>
             </div>
           </div>

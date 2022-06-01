@@ -16,10 +16,10 @@
     <div class="ui column six wide computer six wide tablet sixteen wide mobile createCta">
       <h2 class="ui center aligned header">Infos zum Anbieter</h2>
       <div class="ui container mtb">
-        <p><i class="user icon"></i> {{user.name}}</p>
-        <p><i class="mail icon"></i> {{user.email}}</p>
-        <p><b>Ausbildung:</b> {{user.degree}}</p>
-        <p><b>Beschreibung der Ausbildung:</b> {{user.degree_description}}</p>
+        <p><i class="user icon"></i> {{service.user?.name}}</p>
+        <p><i class="mail icon"></i> {{service.user?.email}}</p>
+        <p><b>Ausbildung:</b> {{service.user?.degree}}</p>
+        <p><b>Beschreibung der Ausbildung:</b> {{service.user?.degree_description}}</p>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@
       <th>Von</th>
       <th>Bis</th>
       <th>Buchung</th>
-      <th>Status</th>
+      <th *ngIf="user.id === service.user_id && user.is_coach">Status</th>
       <th *ngIf="isLoggedIn() && user.id === service.user_id && user.is_coach">Löschen</th>
     </tr>
     </thead>
@@ -43,12 +43,12 @@
     <td>{{timeslot.from | slice: 0:5}}</td>
     <td>{{timeslot.until| slice: 0:5 }}</td>
     <td>
-      <button *ngIf="!timeslot.is_booked && isLoggedIn() && user.id !== service.user_id" (click)="setBooked(timeslot.id)" class="ui red button">Buchen</button>
+      <button *ngIf="!timeslot.is_booked && isLoggedIn() && user.id !== service.user_id && !user.is_coach" (click)="setBooked(timeslot.id)" class="ui red button">Buchen</button>
       <span *ngIf="timeslot.is_booked">{{ user.id === service.user_id ? timeslot.timeslot_agreement.user.name : user.id === timeslot.timeslot_agreement.user.id ? 'Timeslot gebucht!' : 'Bereits vergeben!' }}</span>
       <span *ngIf="!timeslot.is_booked && !isLoggedIn()">Bitte logge dich ein um ein Angebot buchen zu können!</span>
-      <span *ngIf="!timeslot.is_booked && isLoggedIn() && user.id === service.user_id">Noch keine Interessenten!</span>
+      <span *ngIf="!timeslot.is_booked && isLoggedIn()">Noch keine Interessenten!</span>
     </td>
-    <td>
+    <td *ngIf="user.id === service.user_id && user.is_coach">
       <ng-container *ngIf="user.is_coach && user.id === service.user_id" [ngSwitch]="timeslot.status">
         <span *ngSwitchCase="0">Noch zu erledigen </span>
         <span *ngSwitchCase="1">Abgesagt </span>
@@ -69,7 +69,7 @@
             <option value="4">Erfolgreich abgeschlossen</option>
           </select>
         </div>
-        <button type="submit" class="ui button" [disabled]="commentForm.invalid">Speichern</button>
+        <button type="submit" class="ui black button" [disabled]="commentForm.invalid">Speichern</button>
       </form>
     </td>
     <td *ngIf="isLoggedIn() && user.id === service.user_id && user.is_coach">
@@ -89,23 +89,24 @@
 </div>
 
 <div class="ui container section">
+  <h2>Kommentare</h2>
   <form *ngIf="isLoggedIn()" class="ui large form" [formGroup]="commentForm" (ngSubmit)="submitForm()">
     <input type="hidden" formControlName="id">
     <div class="field">
       <label>Kommentar</label>
       <textarea rows="3" formControlName="text"></textarea>
     </div>
-    <button type="submit" class="ui button" [disabled]="commentForm.invalid">Speichern</button>
+    <button type="submit" class="ui black button" [disabled]="commentForm.invalid">Speichern</button>
   </form>
   <div class="commentBox">
-    <div *ngFor="let comment of service.comments.reverse()" class="mb-1">
-      {{user.name}}, {{comment.created_at | date:'dd.MM.yyyy'}}, sagt:
+    <div *ngFor="let comment of service.comments.reverse(), last as l" class="mb-1">
+      {{comment.user?.name}}, {{comment.created_at | date:'dd.MM.yyyy'}}, sagt:
       <div class="comment mb-1 mt-1">
         {{comment.text}}
       </div>
       <a *ngIf="user.id === comment.user_id" (click)="editComment(comment.user_id, comment.id)"><i class="edit pointer icon"></i></a>
       <a *ngIf="user.id === comment.user_id" (click)="removeComment(comment.user_id, comment.id)"><i class="delete pointerRed icon"></i></a>
-      <hr>
+      <hr *ngIf="!l">
     </div>
   </div>
 </div>
