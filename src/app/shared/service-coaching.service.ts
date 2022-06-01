@@ -26,15 +26,12 @@ export class ServiceCoachingService {
   getAllServicesOfUser(id: number) : Observable<Array<Service>> {
     return this.http.get<Array<Service>>(`${this.api}/services/user/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
-
   remove(id: number) : Observable<any> {
     return this.http.delete(`${this.api}/services/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
-
-  /*getAllSearch(searchTerm: string) : Observable<Array<Service>> {
-    return this.http.get<Service>(`${this.api}/Services/search/${searchTerm}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }*/
-
+  create(service: Service) : Observable<any>{
+    return this.http.post(`${this.api}/services`, service).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
   update(service: Service) : Observable<any>{
     return this.http.put(`${this.api}/services/${service.id}`, service).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
@@ -62,14 +59,8 @@ export class ServiceCoachingService {
   getTimeslotAgreementsPendingByUserId(id: number) : Observable<Array<Timeslot>> {
     return this.http.get<Array<Timeslot>>(`${this.api}/timeslots/student/pending/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
-
-  /*-----------------------------------------------------------------------------------------------------------------------------------*/
-  /*check(id:String) : Observable<Boolean>{
-    return this.http.get<Boolean>(`${this.api}/Services/checkid/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
-  }*/
-
-  create(service: Service) : Observable<any>{
-    return this.http.post(`${this.api}/services`, service).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  createTimeslot(timeslot: Timeslot) : Observable<any>{
+    return this.http.post(`${this.api}/tiemslots`, timeslot).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   /*-----------------------------------------------------------------------------------------------------------------------------------*/
@@ -110,14 +101,32 @@ export class ServiceCoachingService {
   getSingleSubject(id: string) : Observable<Subject> {
     return this.http.get<Subject>(`${this.api}/subjects/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
-  checkSubjectExists(subject_id: number) : Observable<Boolean>{
-    return this.http.get<Boolean>(`${this.api}/subject/exists/${subject_id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  createSubject(subject: Subject) : Observable<any>{
+    return this.http.post(`${this.api}/subjects`, subject).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  updateSubject(subject: Subject) : Observable<any>{
+    return this.http.put(`${this.api}/subjects/${subject.id}`, subject).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  removeSubject(id: number) : Observable<any> {
+    return this.http.delete(`${this.api}/subjects/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   /*-----------------------------------------------------------------------------------------------------------------------------------*/
 
   getLoggedInUser() : Observable<User> {
     return this.http.get<User>(`${this.api}/users/current`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  createUser(user: User) : Observable<any>{
+    return this.http.post(`${this.api}/users`, user).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  updateUser(user: User) : Observable<any>{
+    return this.http.put(`${this.api}/users/${user.id}`, user).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getAllUsers(): Observable<Array<User>> {
+    return this.http.get<Array<User>>(`${this.api}/users`).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+  getSingleUser(id: string) : Observable<User> {
+    return this.http.get<User>(`${this.api}/users/${id}`).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   /*-----------------------------------------------------------------------------------------------------------------------------------*/

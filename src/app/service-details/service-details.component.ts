@@ -156,6 +156,7 @@ export class ServiceDetailsComponent implements OnInit {
       if (this.isUpdatingComment) {
         this.cs.updateComment(comment).subscribe(res => {
           this.commentForm.reset(CommentFactory.empty());
+          this.isUpdatingComment = false;
           this.initService();
         });
       } else {

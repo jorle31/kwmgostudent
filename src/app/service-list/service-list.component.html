@@ -5,12 +5,7 @@
       <div class="ui middle aligned selection divided list">
         <a *ngFor="let service of services | paginate: { itemsPerPage: 10, currentPage: p }" class="item kgs-service-list-item" [service]="service" [routerLink]="$any(service.id)">
         </a>
-        <div *ngIf="services && !services.length" class="ui active dimmer">
-          <div class="ui large text loader">
-            Daten werden geladen!
-          </div>
-        </div>
-        <div class="center aligned">
+        <div class="ui container center aligned">
           <p *ngIf="services.length === 0">Noch keine Angebote vorhanden!</p>
         </div>
       </div>

@@ -11,7 +11,6 @@ import { Service } from "../shared/service";
 export class HomeComponent implements OnInit {
 
   services: Service[] = [];
-
   constructor(private cs: ServiceCoachingService) { }
 
   ngOnInit(): void {
